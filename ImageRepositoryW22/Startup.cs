@@ -1,4 +1,4 @@
-using ImageRepositoryW22.Repository;
+using ImageRepositoryW22.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

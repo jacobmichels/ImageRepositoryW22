@@ -1,4 +1,4 @@
-﻿using ImageRepositoryW22.Repository;
+﻿using ImageRepositoryW22.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -30,7 +30,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            _db.Users.AddAsync(new Repository.Models.ApplicationUser("Steve", "djskdk28dhxj"));
+            _db.Users.AddAsync(new Repositories.Models.ApplicationUser("Steve", "djskdk28dhxj"));
             _db.SaveChanges();
 
             var rng = new Random();
