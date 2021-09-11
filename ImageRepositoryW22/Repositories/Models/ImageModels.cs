@@ -39,6 +39,15 @@ namespace ImageRepositoryW22.Repositories.Models
     public class ImageInfo
     {
         public Guid Id {  get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public bool Private { get; set; }
+        public string FileName { get; set; }
+    }
+
+    public class ImageUpdate
+    {
+        public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
@@ -48,7 +57,6 @@ namespace ImageRepositoryW22.Repositories.Models
 
     public class ImageData
     {
-        public ImageInfo Info { get; set; }
         public byte[] Data { get; set; }
         public string FileName {  get; set; }
     }
