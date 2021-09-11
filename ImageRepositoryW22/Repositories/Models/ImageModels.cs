@@ -15,6 +15,8 @@ namespace ImageRepositoryW22.Repositories.Models
         public Guid Id {  get; set; }
         [Required]
         public string Name {  get; set; }
+        [Required]
+        public string FileName {  get; set; }
         public string Description {  get; set; }
         [Required]
         public string Path {  get; set; }
@@ -48,5 +50,6 @@ namespace ImageRepositoryW22.Repositories.Models
     {
         public ImageInfo Info { get; set; }
         public byte[] Data { get; set; }
+        public string FileName {  get; set; }
     }
 }
