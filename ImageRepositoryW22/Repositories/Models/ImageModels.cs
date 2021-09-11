@@ -23,6 +23,8 @@ namespace ImageRepositoryW22.Repositories.Models
         [Required]
         public ApplicationUser Owner {  get; set; }
         public bool Private { get; set; }
+        [Required]
+        public string ImageText {  get; set; }
     }
 
     public class RequestImage
@@ -43,6 +45,7 @@ namespace ImageRepositoryW22.Repositories.Models
         public string Description { get; set; }
         public bool Private { get; set; }
         public string FileName { get; set; }
+        public string ImageText { get; set; }
     }
 
     public class ImageUpdate

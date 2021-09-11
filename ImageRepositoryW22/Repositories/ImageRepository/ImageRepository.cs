@@ -9,7 +9,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using IronOcr;
 using static ImageRepositoryW22.Utilities.Enums.ImageRepositoryEnums;
+using ImageRepositoryW22.Utilities.OCRWrapper;
 
 namespace ImageRepositoryW22.ImageRepository.Repositories
 {
@@ -17,11 +19,13 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
     {
         private readonly ApplicationDbContext _db;
         private readonly ILogger<ImageRepository> _logger;
+        private readonly IOCRWrapper _ocr;
 
-        public ImageRepository(ApplicationDbContext db, ILogger<ImageRepository> logger)
+        public ImageRepository(ApplicationDbContext db, ILogger<ImageRepository> logger, IOCRWrapper ocr)
         {
             _db = db;
             _logger = logger;
+            _ocr = ocr;
         }
         //TODO: Make sure users cannot upload two files with the same name (or not, decide if this is important).
         public async Task<ImageCreateStatus> Create(ApplicationUser user, RequestImage image)
@@ -47,6 +51,8 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             {
                 await image.File.CopyToAsync(stream);
             }
+
+            databaseImage.ImageText = await _ocr.GetTextFromImage(databaseImage.Path);
 
             await _db.Images.AddAsync(databaseImage);
 
@@ -92,6 +98,9 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 {
                     await image.CopyToAsync(stream);
                 }
+
+                databaseImage.ImageText = await _ocr.GetTextFromImage(databaseImage.Path);
+
                 await _db.Images.AddAsync(databaseImage);
             }
 
@@ -268,6 +277,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
         {
             return new ImageInfo()
             {
+                ImageText = image.ImageText,
                 Id = image.Id,
                 Description = image.Description,
                 Name = image.Name,

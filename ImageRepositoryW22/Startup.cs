@@ -19,6 +19,7 @@ using System.Text;
 using ImageRepositoryW22.ImageRepository.Repositories;
 using ImageRepositoryW22.Repositories.UserRepository;
 using ImageRepositoryW22.Utilities.PasswordUtilities;
+using ImageRepositoryW22.Utilities.OCRWrapper;
 
 namespace ImageRepositoryW22
 {
@@ -41,6 +42,7 @@ namespace ImageRepositoryW22
             services.AddScoped<IImageRepository, ImageRepository.Repositories.ImageRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<IPasswordUtilities, PasswordUtilities>();
+            services.AddSingleton<IOCRWrapper, IronTesseractWrapper>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
