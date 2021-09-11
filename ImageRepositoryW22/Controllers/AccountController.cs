@@ -43,7 +43,7 @@ namespace ImageRepositoryW22.Controllers
 
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Authorize]
         public async Task<IActionResult> Delete(string username, string password)
         {
