@@ -76,21 +76,11 @@ namespace ImageRepositoryW22.Controllers
             return Ok(token);
         }
 
-        [HttpPost]
-        [Authorize]
-        //TODO: Decide if this method should exist, and what it should do. Should it invalidate the JWT?
-        public async Task<IActionResult> Logout()
-        {
-            return null;
-        }
-
         [HttpDelete]
         [Authorize]
-        //TODO:Should this method invalidate the JWT?
         public async Task<IActionResult> Delete()
         {
-            var username = HttpContext.User.Identity.Name;
-            var deleted = await _userRepository.DeleteUser(username);
+            var deleted = await _userRepository.DeleteUser(GetUserName());
             if (!deleted)
             {
                 return BadRequest(new { ErrorMessage = "User not deleted." });
@@ -134,6 +124,11 @@ namespace ImageRepositoryW22.Controllers
                 return false;
             }
             return true;
+        }
+
+        private string GetUserName()
+        {
+            return HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "Username").Value;
         }
     }
 }
