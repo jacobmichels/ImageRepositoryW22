@@ -10,12 +10,12 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
     {
         public Task<List<ImageInfo>> GetAllPublic();
         public Task<List<ImageInfo>> GetMine(ApplicationUser user);
-        public Task<DatabaseImage> Get(ApplicationUser user, Guid id);
+        public Task<ImageData> Get(ApplicationUser user, Guid id);
 
         public Task<bool> Create(ApplicationUser user, RequestImage image);
         public Task<bool> Create(ApplicationUser user, List<RequestImage> images);
 
-        public Task<DatabaseImage> Update(ApplicationUser user, ImageInfo image);
+        public Task<ImageInfo> Update(ApplicationUser user, ImageInfo image);
 
         public Task<bool> Delete(ApplicationUser user, Guid id);
         public Task<int> Delete(ApplicationUser user, List<Guid> ids);
