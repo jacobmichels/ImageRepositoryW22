@@ -8,45 +8,45 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
 {
     public class ImageRepository : IImageRepository
     {
-        public bool Create(ApplicationUser user, RequestImage image)
+        public async Task<bool> Create(ApplicationUser user, RequestImage image)
         {
             throw new NotImplementedException();
         }
 
-        public bool Create(ApplicationUser user, List<RequestImage> images)
+        public async Task<bool> Create(ApplicationUser user, List<RequestImage> images)
         {
             throw new NotImplementedException();
         }
 
-        public bool Delete(ApplicationUser user, Guid id)
+        public async Task<bool> Delete(ApplicationUser user, Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public int Delete(ApplicationUser user, List<Guid> ids)
+        public async Task<int> Delete(ApplicationUser user, List<Guid> ids)
         {
             throw new NotImplementedException();
         }
 
         //Return image data only here.
-        public DatabaseImage Get(ApplicationUser user, Guid id)
+        public async Task<DatabaseImage> Get(ApplicationUser user, Guid id)
         {
             throw new NotImplementedException();
         }
 
         //Don't return image data, just info like name
-        public List<DatabaseImage> GetAll()
+        public async Task<List<DatabaseImage>> GetAll()
         {
             throw new NotImplementedException();
         }
 
         //Don't return image data, just info like name
-        public List<DatabaseImage> GetAll(ApplicationUser user)
+        public async Task<List<DatabaseImage>> GetAll(ApplicationUser user)
         {
             throw new NotImplementedException();
         }
 
-        public DatabaseImage Update(ApplicationUser user, RequestImage image, Guid id)
+        public async Task<DatabaseImage> Update(ApplicationUser user, RequestImage image, Guid id)
         {
             throw new NotImplementedException();
         }

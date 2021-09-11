@@ -8,17 +8,17 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
 {
     public interface IImageRepository
     {
-        public List<DatabaseImage> GetAll();
-        public List<DatabaseImage> GetAll(ApplicationUser user);
-        public DatabaseImage Get(ApplicationUser user, Guid id);
+        public Task<List<DatabaseImage>> GetAll();
+        public Task<List<DatabaseImage>> GetAll(ApplicationUser user);
+        public Task<DatabaseImage> Get(ApplicationUser user, Guid id);
 
-        public bool Create(ApplicationUser user, RequestImage image);
-        public bool Create(ApplicationUser user, List<RequestImage> images);
+        public Task<bool> Create(ApplicationUser user, RequestImage image);
+        public Task<bool> Create(ApplicationUser user, List<RequestImage> images);
 
-        public DatabaseImage Update(ApplicationUser user, RequestImage image, Guid id);
+        public Task<DatabaseImage> Update(ApplicationUser user, RequestImage image, Guid id);
 
-        public bool Delete(ApplicationUser user, Guid id);
-        public int Delete(ApplicationUser user, List<Guid> ids);
+        public Task<bool> Delete(ApplicationUser user, Guid id);
+        public Task<int> Delete(ApplicationUser user, List<Guid> ids);
 
     }
 }
