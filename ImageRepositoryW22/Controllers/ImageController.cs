@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using static ImageRepositoryW22.Utilities.Enums.ImageRepositoryEnums;
 
 namespace ImageRepositoryW22.Controllers
 {
@@ -57,12 +58,23 @@ namespace ImageRepositoryW22.Controllers
         public async Task<IActionResult> CreateOne([FromForm] RequestImage imageInfo)
         {
             var user = await _userRepository.GetUser(GetUserName());
-            var created = await _imageRepository.Create(user, imageInfo);
-            if (created)
+            var createdStatus = await _imageRepository.Create(user, imageInfo);
+            if (createdStatus == ImageCreateStatus.Success)
             {
                 return Ok();
             }
-            return BadRequest("Image was not created. Make sure it does not have the same name as another one of your images.");
+            else if (createdStatus == ImageCreateStatus.FileTooLarge)
+            {
+                return BadRequest(new { ErrorMessage = "Image was not created due to the file being too large. Only files under 100MB allowed." });
+            }
+            else if (createdStatus == ImageCreateStatus.BadExtension)
+            {
+                return BadRequest(new { ErrorMessage = "Image was not created due to the file extension not being a recognized image extension." });
+            }
+            else
+            {
+                return StatusCode(500,new { ErrorMessage = "Image was not saved due to a database error. Please try again later." });
+            }
         }
 
         [Authorize]
@@ -83,12 +95,19 @@ namespace ImageRepositoryW22.Controllers
         public async Task<IActionResult> DeleteOne(Guid id)
         {
             var user = await _userRepository.GetUser(GetUserName());
-            var deleted = await _imageRepository.Delete(user, id);
-            if (deleted)
+            var deletedStatus = await _imageRepository.Delete(user, id);
+            if (deletedStatus==ImageDeleteStatus.Success)
             {
                 return Ok();
             }
-            return BadRequest("Image not deleted");
+            else if(deletedStatus == ImageDeleteStatus.ImageNotFound)
+            {
+                return NotFound(new { ErrorMessage = "Image with the specified guid not found. Make sure you own the image you are trying to delete." });
+            }
+            else
+            {
+                return StatusCode(500, new { ErrorMessage = "Image was not deleted due to a database error. Please try again later." });
+            }
         }
 
         [Authorize]
@@ -96,8 +115,23 @@ namespace ImageRepositoryW22.Controllers
         public async Task<IActionResult> DeleteMany(List<Guid> ids)
         {
             var user = await _userRepository.GetUser(GetUserName());
-            var deleted = await _imageRepository.Delete(user, ids);
-            return Ok($"Deleted {deleted} images.");
+            var deletedStatus = await _imageRepository.Delete(user, ids);
+            if(deletedStatus == ImageBulkDeleteStatus.AllSuccess)
+            {
+                return Ok(new { Message= "All images deleted." });
+            }
+            else if(deletedStatus == ImageBulkDeleteStatus.AtLeastOneFail)
+            {
+                return Ok(new { Message = "Some images were not deleted. Please check that you own the images you are trying to delete." });
+            }
+            else if(deletedStatus == ImageBulkDeleteStatus.AllFail)
+            {
+                return NotFound(new { ErrorMessage = "No images were deleted. Please check that you own the images you are trying to delete." });
+            }
+            else
+            {
+                return StatusCode(500, new { ErrorMessage = "Image was not deleted due to a database error.Please try again later." });
+            }
         }
 
         private string GetUserName()

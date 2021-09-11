@@ -1,5 +1,6 @@
 ﻿using ImageRepositoryW22.Repositories;
 using ImageRepositoryW22.Repositories.Models;
+using ImageRepositoryW22.Utilities.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using static ImageRepositoryW22.Utilities.Enums.ImageRepositoryEnums;
 
 namespace ImageRepositoryW22.ImageRepository.Repositories
 {
@@ -21,13 +23,13 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             _logger = logger;
         }
         //TODO: Make sure users cannot upload two files with the same name (or not, decide if this is important).
-        public async Task<bool> Create(ApplicationUser user, RequestImage image)
+        public async Task<ImageCreateStatus> Create(ApplicationUser user, RequestImage image)
         {
             //Make sure users can't upload large files (> 100MB)
             if (image.File.Length > 100000000)
             {
                 _logger.LogWarning($"User: {user.UserName} Tried to upload file with size {image.File.Length}");
-                return false;
+                return ImageCreateStatus.FileTooLarge;
             }
 
             //make sure the file extension is an image. This is a repository for images only.
@@ -35,7 +37,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             if (!IsValidFileExtension(fileExtension))
             {
                 _logger.LogWarning($"User: {user.UserName} Tried to upload file with invalid extension: {fileExtension}");
-                return false;
+                return ImageCreateStatus.BadExtension;
             }
 
             var databaseImage = BuildDatabaseImage(user, image);
@@ -54,14 +56,15 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"Exception occured while trying to save image insertion to db: {ex.Message}");
-                return false;
+                return ImageCreateStatus.DatabaseError;
             }
 
-            return true;
+            return ImageCreateStatus.Success;
         }
 
-        public async Task<bool> Create(ApplicationUser user, List<RequestImage> images)
+        public async Task<ImageBulkCreateStatus> Create(ApplicationUser user, List<RequestImage> images)
         {
+            ImageBulkCreateStatus returnVal = ImageBulkCreateStatus.AllSuccess; 
             foreach (var image in images)
             {
                 //Make sure users can't upload large files (> 100MB)
@@ -69,6 +72,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 {
                     images.Remove(image);
                     _logger.LogWarning($"User: {user.UserName} Tried to upload file with size {image.File.Length}");
+                    returnVal = ImageBulkCreateStatus.AtLeastOneFail;
                     continue;
                 }
                 //Make sure the file extension is an image. This is a repository for images only.
@@ -77,6 +81,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 {
                     _logger.LogWarning($"User: {user.UserName} Tried to upload file with invalid extension: {fileExtension}");
                     images.Remove(image);
+                    returnVal = ImageBulkCreateStatus.AtLeastOneFail;
                     continue;
                 }
 
@@ -89,6 +94,11 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 await _db.Images.AddAsync(databaseImage);
             }
 
+            if(images.Count == 0)
+            {
+                return ImageBulkCreateStatus.AllFail;
+            }
+
             try
             {
                 await _db.SaveChangesAsync();
@@ -96,19 +106,19 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"Exception occured while trying to save bulk image insertion to db: {ex.Message}");
-                return false;
+                return ImageBulkCreateStatus.DatabaseError;
             }
 
-            return true;
+            return returnVal;
 
         }
 
-        public async Task<bool> Delete(ApplicationUser user, Guid id)
+        public async Task<ImageDeleteStatus> Delete(ApplicationUser user, Guid id)
         {
             var image = await _db.Images.FirstOrDefaultAsync(image => image.Id==id && image.Owner.UserName==user.UserName);
             if(image is null)
             {
-                return false;
+                return ImageDeleteStatus.ImageNotFound;
             }
             _db.Images.Remove(image);
             try
@@ -118,18 +128,18 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"Exception occured while trying to save image deletion to db: {ex.Message}");
-                return false;
+                return ImageDeleteStatus.DatabaseError;
             }
-            return true;
+            return ImageDeleteStatus.Success;
 
         }
 
-        public async Task<int> Delete(ApplicationUser user, List<Guid> ids)
+        public async Task<ImageBulkDeleteStatus> Delete(ApplicationUser user, List<Guid> ids)
         {
             var images = await _db.Images.Where(image => ids.Contains(image.Id) && image.Owner.UserName == user.UserName).ToListAsync();
             if(images is null || images.Count == 0)
             {
-                return 0;
+                return ImageBulkDeleteStatus.AllFail;
             }
             int count = 0;
             foreach(var image in images)
@@ -145,10 +155,14 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"Exception occured while trying to save bulk image deletion to db: {ex.Message}");
-                return -1;
+                return ImageBulkDeleteStatus.DatabaseError;
             }
 
-            return count;
+            if (count == ids.Count)
+            {
+                return ImageBulkDeleteStatus.AllSuccess;
+            }
+            return ImageBulkDeleteStatus.AtLeastOneFail;
         }
 
         //Return image data only here. Check if user is null, and make sure the image is either public or the user owns the image
