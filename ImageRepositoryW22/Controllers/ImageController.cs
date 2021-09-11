@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,18 +18,16 @@ namespace ImageRepositoryW22.Controllers
     {
         private readonly IImageRepository _imageRepository;
         private readonly IUserRepository _userRepository;
-        private readonly string _username;
         public ImageController(IImageRepository imageRepository, IUserRepository userRepository)
         {
             _imageRepository = imageRepository;
             _userRepository = userRepository;
-            _username = HttpContext.User.Identity.Name;
         }
 
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get(Guid id) {
-            var user = await _userRepository.GetUser(_username);
+            var user = await _userRepository.GetUser(GetUserName());
             var image = await _imageRepository.Get(user, id);
             return Ok(image);
         }
@@ -37,7 +36,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMine()
         {
-            var user = await _userRepository.GetUser(_username);
+            var user = await _userRepository.GetUser(GetUserName());
             var images = await _imageRepository.GetAll(user);
             return Ok(images);
         }
@@ -53,7 +52,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOne([FromForm] RequestImage imageInfo)
         {
-            var user = await _userRepository.GetUser(_username);
+            var user = await _userRepository.GetUser(GetUserName());
             var created = await _imageRepository.Create(user, imageInfo);
             if (created)
             {
@@ -66,7 +65,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpPatch]
         public async Task<IActionResult> Update(ImageUpdate image, Guid id)
         {
-            var user = await _userRepository.GetUser(_username);
+            var user = await _userRepository.GetUser(GetUserName());
             var updated = await _imageRepository.Update(user, image, id);
             if(updated is not null)
             {
@@ -79,7 +78,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteOne(Guid id)
         {
-            var user = await _userRepository.GetUser(_username);
+            var user = await _userRepository.GetUser(GetUserName());
             var deleted = await _imageRepository.Delete(user, id);
             if (deleted)
             {
@@ -92,9 +91,14 @@ namespace ImageRepositoryW22.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteMany(List<Guid> ids)
         {
-            var user = await _userRepository.GetUser(_username);
+            var user = await _userRepository.GetUser(GetUserName());
             var deleted = await _imageRepository.Delete(user, ids);
             return Ok($"Deleted {deleted} images.");
+        }
+
+        private string GetUserName()
+        {
+            return HttpContext.User.Claims.FirstOrDefault(claim => claim.Type=="Username").Value;
         }
     }
 }
