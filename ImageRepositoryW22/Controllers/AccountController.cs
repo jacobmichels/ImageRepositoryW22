@@ -31,10 +31,20 @@ namespace ImageRepositoryW22.Controllers
             _config = config;
         }
 
+        [HttpGet]
+        [Authorize]
+        public IActionResult Me()
+        {
+            return Ok(new { Username = GetUserName() });
+        }
+
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login(UserCredentials credentials)
         {
+            string username = credentials.UserName;
+            string password = credentials.Password;
+
             var user = await _userRepository.GetUser(username);
             if(user is null)
             {
@@ -52,11 +62,14 @@ namespace ImageRepositoryW22.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(string username, string password)
+        public async Task<IActionResult> Register(UserCredentials credentials)
         {
+            string username = credentials.UserName;
+            string password = credentials.Password;
+
             if(!credentialsValid(username, password))
             {
-                return BadRequest(new { ErrorMessage = "Bad credentials." });
+                return BadRequest(new { ErrorMessage = "Bad credentials. Make sure your password is at least 6 characters, and your username is not blank." });
             }
 
             if(await _userRepository.UserExists(username))
@@ -119,7 +132,7 @@ namespace ImageRepositoryW22.Controllers
             {
                 return false;
             }
-            if (password.Length<=6)
+            if (password.Length<6)
             {
                 return false;
             }
