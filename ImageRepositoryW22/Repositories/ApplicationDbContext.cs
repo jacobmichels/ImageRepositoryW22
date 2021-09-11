@@ -10,7 +10,7 @@ namespace ImageRepositoryW22.Repositories
     public class ApplicationDbContext: DbContext
     {
         public DbSet<ApplicationUser> Users {  get; set; }
-        public DbSet<Image> Images { get; set; }
+        public DbSet<DatabaseImage> Images { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
 
