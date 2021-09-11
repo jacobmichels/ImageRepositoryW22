@@ -31,6 +31,8 @@ namespace ImageRepositoryW22.Repositories.Models
         public bool Private { get; set; }
         [Required]
         public IFormFile File { get; set; }
+        [Required]
+        public string Extension { get; set; }
     }
 
     public class ImageUpdate
