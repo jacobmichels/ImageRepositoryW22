@@ -8,7 +8,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
 {
     public interface IImageRepository
     {
-        public Task<List<ImageInfo>> GetAll();
+        public Task<List<ImageInfo>> GetAllPublic();
         public Task<List<ImageInfo>> GetAll(ApplicationUser user);
         public Task<DatabaseImage> Get(ApplicationUser user, Guid id);
 

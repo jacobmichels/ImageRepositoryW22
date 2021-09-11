@@ -48,7 +48,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllPublic()
         {
-            var images = await _imageRepository.GetAll();
+            var images = await _imageRepository.GetAllPublic();
             return Ok(images);
         }
 
