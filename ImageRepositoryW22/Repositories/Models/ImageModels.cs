@@ -35,6 +35,7 @@ namespace ImageRepositoryW22.Repositories.Models
 
     public class ImageInfo
     {
+        public Guid Id {  get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }

@@ -29,6 +29,10 @@ namespace ImageRepositoryW22.Controllers
         public async Task<IActionResult> Get(Guid id) {
             var user = await _userRepository.GetUser(GetUserName());
             var image = await _imageRepository.Get(user, id);
+            if(image is null)
+            {
+                return NotFound();
+            }
             return Ok(image);
         }
 
@@ -63,10 +67,10 @@ namespace ImageRepositoryW22.Controllers
 
         [Authorize]
         [HttpPatch]
-        public async Task<IActionResult> Update(ImageUpdate image, Guid id)
+        public async Task<IActionResult> Update(ImageInfo image)
         {
             var user = await _userRepository.GetUser(GetUserName());
-            var updated = await _imageRepository.Update(user, image, id);
+            var updated = await _imageRepository.Update(user, image);
             if(updated is not null)
             {
                 return Ok(updated);

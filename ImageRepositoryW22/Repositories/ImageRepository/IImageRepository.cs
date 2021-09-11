@@ -15,7 +15,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
         public Task<bool> Create(ApplicationUser user, RequestImage image);
         public Task<bool> Create(ApplicationUser user, List<RequestImage> images);
 
-        public Task<DatabaseImage> Update(ApplicationUser user, ImageUpdate image, Guid id);
+        public Task<DatabaseImage> Update(ApplicationUser user, ImageInfo image);
 
         public Task<bool> Delete(ApplicationUser user, Guid id);
         public Task<int> Delete(ApplicationUser user, List<Guid> ids);
