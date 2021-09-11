@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -41,5 +42,11 @@ namespace ImageRepositoryW22.Repositories.Models
         public string Description { get; set; }
         [Required]
         public bool Private { get; set; }
+    }
+
+    public class ImageData
+    {
+        public ImageInfo Info { get; set; }
+        public byte[] Data { get; set; }
     }
 }
