@@ -92,27 +92,7 @@ namespace ImageRepositoryW22.Controllers
 
         [Authorize]
         [HttpDelete]
-        public async Task<IActionResult> DeleteOne(Guid id)
-        {
-            var user = await _userRepository.GetUser(GetUserName());
-            var deletedStatus = await _imageRepository.Delete(user, id);
-            if (deletedStatus==ImageDeleteStatus.Success)
-            {
-                return Ok();
-            }
-            else if(deletedStatus == ImageDeleteStatus.ImageNotFound)
-            {
-                return NotFound(new { ErrorMessage = "Image with the specified guid not found. Make sure you own the image you are trying to delete." });
-            }
-            else
-            {
-                return StatusCode(500, new { ErrorMessage = "Image was not deleted due to a database error. Please try again later." });
-            }
-        }
-
-        [Authorize]
-        [HttpDelete]
-        public async Task<IActionResult> DeleteMany(List<Guid> ids)
+        public async Task<IActionResult> Delete(List<Guid> ids)
         {
             var user = await _userRepository.GetUser(GetUserName());
             var deletedStatus = await _imageRepository.Delete(user, ids);

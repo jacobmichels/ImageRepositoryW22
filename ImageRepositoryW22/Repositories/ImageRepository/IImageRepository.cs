@@ -19,7 +19,6 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
 
         public Task<ImageInfo> Update(ApplicationUser user, ImageInfo image);
 
-        public Task<ImageDeleteStatus> Delete(ApplicationUser user, Guid id);
         public Task<ImageBulkDeleteStatus> Delete(ApplicationUser user, List<Guid> ids);
 
     }

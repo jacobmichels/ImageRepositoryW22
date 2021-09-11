@@ -113,27 +113,6 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
 
         }
 
-        public async Task<ImageDeleteStatus> Delete(ApplicationUser user, Guid id)
-        {
-            var image = await _db.Images.FirstOrDefaultAsync(image => image.Id==id && image.Owner.UserName==user.UserName);
-            if(image is null)
-            {
-                return ImageDeleteStatus.ImageNotFound;
-            }
-            _db.Images.Remove(image);
-            try
-            {
-                await _db.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Exception occured while trying to save image deletion to db: {ex.Message}");
-                return ImageDeleteStatus.DatabaseError;
-            }
-            return ImageDeleteStatus.Success;
-
-        }
-
         public async Task<ImageBulkDeleteStatus> Delete(ApplicationUser user, List<Guid> ids)
         {
             var images = await _db.Images.Where(image => ids.Contains(image.Id) && image.Owner.UserName == user.UserName).ToListAsync();
