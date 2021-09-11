@@ -56,19 +56,19 @@ namespace ImageRepositoryW22.Controllers
         {
             if(!credentialsValid(username, password))
             {
-                return BadRequest("Credentials invalid");
+                return BadRequest(new { ErrorMessage = "Bad credentials." });
             }
 
             if(await _userRepository.UserExists(username))
             {
-                return Forbid("A user with that name already exists");
+                return BadRequest(new { ErrorMessage = "A user with that username already exists." });
             }
             var user = await CreateApplicationUser(username, password);
             var userInserted = await _userRepository.InsertUser(user);
 
             if (!userInserted)
             {
-                return Problem();
+                return StatusCode(500, new { ErrorMessage = "User not inserted into database. Please try again later." });
             }
 
             var token = GenerateJWT(user);
@@ -93,7 +93,7 @@ namespace ImageRepositoryW22.Controllers
             var deleted = await _userRepository.DeleteUser(username);
             if (!deleted)
             {
-                return BadRequest("User not deleted");
+                return BadRequest(new { ErrorMessage = "User not deleted." });
             }
 
             return Ok();
