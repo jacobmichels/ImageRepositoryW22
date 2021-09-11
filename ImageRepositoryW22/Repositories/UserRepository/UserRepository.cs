@@ -58,7 +58,7 @@ namespace ImageRepositoryW22.Repositories.UserRepository
                     return false;
                 }
             }
-
+            System.IO.Directory.Delete(System.IO.Path.Join("UserImages",$"{user.Id}"));
             _db.Users.Remove(user);
 
             try

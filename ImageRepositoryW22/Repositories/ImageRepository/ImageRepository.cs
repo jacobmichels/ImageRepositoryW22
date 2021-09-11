@@ -133,6 +133,9 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             foreach(var image in images)
             {
                 count++;
+
+                File.Delete(image.Path);
+
                 _db.Remove(image);
             }
 
