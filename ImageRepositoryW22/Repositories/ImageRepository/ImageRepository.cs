@@ -8,12 +8,12 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
 {
     public class ImageRepository : IImageRepository
     {
-        public bool Create(ApplicationUser user, Image image)
+        public bool Create(ApplicationUser user, RequestImage image)
         {
             throw new NotImplementedException();
         }
 
-        public bool Create(ApplicationUser user, List<Image> images)
+        public bool Create(ApplicationUser user, List<RequestImage> images)
         {
             throw new NotImplementedException();
         }
@@ -29,24 +29,24 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
         }
 
         //Return image data only here.
-        public Image Get(ApplicationUser user, Guid id)
+        public DatabaseImage Get(ApplicationUser user, Guid id)
         {
             throw new NotImplementedException();
         }
 
         //Don't return image data, just info like name
-        public List<Image> GetAll()
+        public List<DatabaseImage> GetAll()
         {
             throw new NotImplementedException();
         }
 
         //Don't return image data, just info like name
-        public List<Image> GetAll(ApplicationUser user)
+        public List<DatabaseImage> GetAll(ApplicationUser user)
         {
             throw new NotImplementedException();
         }
 
-        public Image Update(ApplicationUser user, Image image)
+        public DatabaseImage Update(ApplicationUser user, RequestImage image, Guid id)
         {
             throw new NotImplementedException();
         }
