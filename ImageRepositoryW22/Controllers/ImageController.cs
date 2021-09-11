@@ -61,7 +61,7 @@ namespace ImageRepositoryW22.Controllers
             var createdStatus = await _imageRepository.Create(user, imageInfo);
             if (createdStatus == ImageCreateStatus.Success)
             {
-                return Ok();
+                return Ok(new { Message = "Image created." });
             }
             else if (createdStatus == ImageCreateStatus.FileTooLarge)
             {
@@ -118,7 +118,7 @@ namespace ImageRepositoryW22.Controllers
             var deletedStatus = await _imageRepository.Delete(user, ids);
             if(deletedStatus == ImageBulkDeleteStatus.AllSuccess)
             {
-                return Ok(new { Message= "All images deleted." });
+                return Ok(new { Message= "Images successfully deleted." });
             }
             else if(deletedStatus == ImageBulkDeleteStatus.AtLeastOneFail)
             {
