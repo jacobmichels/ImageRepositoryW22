@@ -1,4 +1,6 @@
 ﻿using ImageRepositoryW22.Repositories.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,24 +10,56 @@ namespace ImageRepositoryW22.Repositories.UserRepository
 {
     public class UserRepository : IUserRepository
     {
-        public Task<ApplicationUser> CreateUser(string username, string password)
+        private readonly ApplicationDbContext _db;
+        private readonly ILogger<UserRepository> _logger;
+        public UserRepository(ApplicationDbContext db, ILogger<UserRepository> logger)
         {
-            throw new NotImplementedException();
+            _db = db;
+            _logger = logger;
         }
 
-        public Task<bool> DeleteUser(string username)
+        public async Task<bool> InsertUser(ApplicationUser user)
         {
-            throw new NotImplementedException();
+            await _db.Users.AddAsync(user);
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exception occured while trying to save insertion to db: {ex.Message}");
+                return false;
+            }
+            return true;
         }
 
-        public Task<ApplicationUser> GetUser(string username)
+        public async Task<bool> DeleteUser(string username)
         {
-            throw new NotImplementedException();
+            var user = await GetUser(username);
+            _db.Users.Remove(user);
+
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Exception occured while trying to save deletion to db: {ex.Message}");
+                return false;
+            }
+            return true;
         }
 
-        public Task<bool> UserExists(string username)
+        public async Task<ApplicationUser> GetUser(string username)
         {
-            throw new NotImplementedException();
+            var user = await _db.Users.FirstOrDefaultAsync(user => user.UserName == username);
+            return user;
+        }
+
+        public async Task<bool> UserExists(string username)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(user => user.UserName == username);
+            return user != null;
         }
     }
 }
