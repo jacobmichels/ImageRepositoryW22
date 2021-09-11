@@ -1,6 +1,7 @@
 ﻿using ImageRepositoryW22.Repositories;
 using ImageRepositoryW22.Repositories.Models;
 using ImageRepositoryW22.Utilities.Enums;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -62,21 +63,21 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return ImageCreateStatus.Success;
         }
 
-        public async Task<ImageBulkCreateStatus> Create(ApplicationUser user, List<RequestImage> images)
+        public async Task<ImageBulkCreateStatus> Create(ApplicationUser user, List<IFormFile> images)
         {
             ImageBulkCreateStatus returnVal = ImageBulkCreateStatus.AllSuccess; 
             foreach (var image in images)
             {
                 //Make sure users can't upload large files (> 100MB)
-                if (image.File.Length > 100000000)
+                if (image.Length > 100000000)
                 {
                     images.Remove(image);
-                    _logger.LogWarning($"User: {user.UserName} Tried to upload file with size {image.File.Length}");
+                    _logger.LogWarning($"User: {user.UserName} Tried to upload file with size {image.Length}");
                     returnVal = ImageBulkCreateStatus.AtLeastOneFail;
                     continue;
                 }
                 //Make sure the file extension is an image. This is a repository for images only.
-                var fileExtension = Path.GetExtension(image.File.FileName);
+                var fileExtension = Path.GetExtension(image.FileName);
                 if (!IsValidFileExtension(fileExtension))
                 {
                     _logger.LogWarning($"User: {user.UserName} Tried to upload file with invalid extension: {fileExtension}");
@@ -85,11 +86,11 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                     continue;
                 }
 
-                var databaseImage = BuildDatabaseImage(user, image);
+                var databaseImage = BuildDatabaseImageBulk(user, image);
                 Directory.CreateDirectory(Path.Join("UserImages", $"{user.Id}"));
                 using (var stream = File.Create(databaseImage.Path))
                 {
-                    await image.File.CopyToAsync(stream);
+                    await image.CopyToAsync(stream);
                 }
                 await _db.Images.AddAsync(databaseImage);
             }
@@ -110,7 +111,6 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             }
 
             return returnVal;
-
         }
 
         public async Task<ImageBulkDeleteStatus> Delete(ApplicationUser user, List<Guid> ids)
@@ -173,7 +173,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return MapListToImageInfo(databaseImages);
         }
 
-        public async Task<ImageInfo> Update(ApplicationUser user, ImageInfo newData)
+        public async Task<ImageInfo> Update(ApplicationUser user, ImageUpdate newData)
         {
             var image = await _db.Images.FirstOrDefaultAsync(image => image.Id == newData.Id && image.Owner.UserName == user.UserName);
             if (image is null)
@@ -220,9 +220,25 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 Name = image.Name,
                 Private = image.Private,
                 Owner = user,
+                FileName=image.File.FileName
             };
             //For security, use user.Id and databaseImage.Id for the path so we don't create a path with untrusted user input.
             databaseImage.Path = Path.Join("UserImages", $"{user.Id}", $"{databaseImage.Id}{Path.GetExtension(image.File.FileName)}");
+            return databaseImage;
+        }
+
+        private DatabaseImage BuildDatabaseImageBulk(ApplicationUser user, IFormFile image)
+        {
+            var databaseImage = new DatabaseImage()
+            {
+                Id = Guid.NewGuid(),
+                Name = image.FileName,
+                Private = true,
+                Owner = user,
+                FileName=image.FileName
+            };
+            //For security, use user.Id and databaseImage.Id for the path so we don't create a path with untrusted user input.
+            databaseImage.Path = Path.Join("UserImages", $"{user.Id}", $"{databaseImage.Id}{Path.GetExtension(image.FileName)}");
             return databaseImage;
         }
 
@@ -255,15 +271,16 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 Id = image.Id,
                 Description = image.Description,
                 Name = image.Name,
-                Private = image.Private
+                Private = image.Private,
+                FileName = image.FileName,
             };
         }
         private async Task<ImageData> MapToImageData(DatabaseImage image)
         {
             return new ImageData()
             {
-                Info = MapToImageInfo(image),
-                Data = await File.ReadAllBytesAsync(image.Path)
+                Data = await File.ReadAllBytesAsync(image.Path),
+                FileName = image.FileName
             };
         }
     }

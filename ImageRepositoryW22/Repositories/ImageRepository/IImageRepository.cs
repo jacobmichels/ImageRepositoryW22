@@ -1,5 +1,6 @@
 ﻿using ImageRepositoryW22.Repositories.Models;
 using ImageRepositoryW22.Utilities.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,9 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
         public Task<ImageData> Get(ApplicationUser user, Guid id);
 
         public Task<ImageCreateStatus> Create(ApplicationUser user, RequestImage image);
-        public Task<ImageBulkCreateStatus> Create(ApplicationUser user, List<RequestImage> images);
+        public Task<ImageBulkCreateStatus> Create(ApplicationUser user, List<IFormFile> images);
 
-        public Task<ImageInfo> Update(ApplicationUser user, ImageInfo image);
+        public Task<ImageInfo> Update(ApplicationUser user, ImageUpdate image);
 
         public Task<ImageBulkDeleteStatus> Delete(ApplicationUser user, List<Guid> ids);
 

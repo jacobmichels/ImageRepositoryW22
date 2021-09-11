@@ -34,7 +34,7 @@ namespace ImageRepositoryW22.Controllers
             {
                 return NotFound();
             }
-            return File(imageData.Data, "application/octet-stream");
+            return File(imageData.Data, "application/octet-stream", imageData.FileName);
         }
 
         [Authorize]
@@ -78,8 +78,32 @@ namespace ImageRepositoryW22.Controllers
         }
 
         [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> CreateMany([FromForm] List<IFormFile> files)
+        {
+            var user = await _userRepository.GetUser(GetUserName());
+            var createdStatus = await _imageRepository.Create(user, files);
+            if (createdStatus == ImageBulkCreateStatus.AllSuccess)
+            {
+                return Ok(new { Message = "Images successfully created." });
+            }
+            else if (createdStatus == ImageBulkCreateStatus.AllFail)
+            {
+                return BadRequest(new { ErrorMessage = "All images failed to be created. Please check their sizes and file extensions." });
+            }
+            else if (createdStatus == ImageBulkCreateStatus.AtLeastOneFail)
+            {
+                return BadRequest(new { ErrorMessage = "At least one image failed to be created. Please check their sizes and file extensions." });
+            }
+            else
+            {
+                return StatusCode(500, new { ErrorMessage = "Images were not saved due to a database error. Please try again later." });
+            }
+        }
+
+        [Authorize]
         [HttpPatch]
-        public async Task<IActionResult> Update(ImageInfo image)
+        public async Task<IActionResult> Update(ImageUpdate image)
         {
             var user = await _userRepository.GetUser(GetUserName());
             var updated = await _imageRepository.Update(user, image);
