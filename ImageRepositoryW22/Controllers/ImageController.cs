@@ -41,7 +41,7 @@ namespace ImageRepositoryW22.Controllers
         public async Task<IActionResult> GetMine()
         {
             var user = await _userRepository.GetUser(GetUserName());
-            var images = await _imageRepository.GetAll(user);
+            var images = await _imageRepository.GetMine(user);
             return Ok(images);
         }
         [AllowAnonymous]
