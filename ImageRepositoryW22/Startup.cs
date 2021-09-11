@@ -16,6 +16,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ImageRepositoryW22.ImageRepository.Repositories;
+using ImageRepositoryW22.Repositories.UserRepository;
+using ImageRepositoryW22.Utilities.PasswordUtilities;
 
 namespace ImageRepositoryW22
 {
@@ -35,6 +38,9 @@ namespace ImageRepositoryW22
                 options.UseSqlite("Data Source=app.db;");
             });
             services.AddControllers();
+            services.AddScoped<IImageRepository, ImageRepository.Repositories.ImageRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddSingleton<IPasswordUtilities, PasswordUtilities>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
