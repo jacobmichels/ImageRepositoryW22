@@ -33,7 +33,7 @@ namespace ImageRepositoryW22.Repositories.Models
         public IFormFile File { get; set; }
     }
 
-    public class ImageUpdate
+    public class ImageInfo
     {
         [Required]
         public string Name { get; set; }
