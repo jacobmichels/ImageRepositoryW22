@@ -10,7 +10,7 @@ namespace ImageRepositoryW22.Repositories.UserRepository
     {
         public Task<ApplicationUser> GetUser(string username);
         public Task<bool> UserExists(string username);
-        public Task<ApplicationUser> CreateUser(string username, string password);
+        public Task<bool> InsertUser(ApplicationUser user);
         public Task<bool> DeleteUser(string username);
     }
 }
