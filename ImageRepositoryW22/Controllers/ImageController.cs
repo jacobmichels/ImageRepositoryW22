@@ -28,12 +28,12 @@ namespace ImageRepositoryW22.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(Guid id) {
             var user = await _userRepository.GetUser(GetUserName());
-            var image = await _imageRepository.Get(user, id);
-            if(image is null)
+            var imageData = await _imageRepository.Get(user, id);
+            if(imageData is null)
             {
                 return NotFound();
             }
-            return Ok(image);
+            return File(imageData.Data, "application/octet-stream");
         }
 
         [Authorize]
