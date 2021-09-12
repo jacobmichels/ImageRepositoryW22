@@ -27,7 +27,6 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             _logger = logger;
             _ocr = ocr;
         }
-        //TODO: Make sure users cannot upload two files with the same name (or not, decide if this is important).
         public async Task<ImageCreateStatus> Create(ApplicationUser user, RequestImage image)
         {
             //Make sure users can't upload large files (> 100MB)
@@ -161,6 +160,10 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
         {
             var image = await _db.Images.FirstOrDefaultAsync(image => image.Id == id);
             if (image == null)
+            {
+                return null;
+            }
+            if(user is null && image.Private == true)
             {
                 return null;
             }
