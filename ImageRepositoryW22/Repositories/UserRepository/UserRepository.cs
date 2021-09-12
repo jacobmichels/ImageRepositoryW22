@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 using static ImageRepositoryW22.Utilities.Enums.ImageRepositoryEnums;
 
 namespace ImageRepositoryW22.Repositories.UserRepository
@@ -37,9 +38,9 @@ namespace ImageRepositoryW22.Repositories.UserRepository
             return true;
         }
 
-        public async Task<bool> DeleteUser(string username)
+        public async Task<bool> DeleteUser(Guid id)
         {
-            var user = await GetUser(username);
+            var user = await GetUser(id);
 
             //Remove all of the users image, then remove the user.
             var images = await _imageRepository.GetMine(user);
@@ -58,7 +59,9 @@ namespace ImageRepositoryW22.Repositories.UserRepository
                     return false;
                 }
             }
-            System.IO.Directory.Delete(System.IO.Path.Join("UserImages",$"{user.Id}"));
+            if(Directory.Exists(Path.Join("UserImages", $"{user.Id}"))){
+                Directory.Delete(Path.Join("UserImages", $"{user.Id}"));
+            }
             _db.Users.Remove(user);
 
             try
@@ -79,9 +82,21 @@ namespace ImageRepositoryW22.Repositories.UserRepository
             return user;
         }
 
+        public async Task<ApplicationUser> GetUser(Guid id)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(user => user.Id == id);
+            return user;
+        }
+
         public async Task<bool> UserExists(string username)
         {
             var user = await _db.Users.FirstOrDefaultAsync(user => user.UserName == username);
+            return user != null;
+        }
+
+        public async Task<bool> UserExists(Guid id)
+        {
+            var user = await _db.Users.FirstOrDefaultAsync(user => user.Id == id);
             return user != null;
         }
     }

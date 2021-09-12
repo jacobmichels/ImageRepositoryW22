@@ -28,7 +28,7 @@ namespace ImageRepositoryW22.Controllers
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get(Guid id) {
-            var user = await _userRepository.GetUser(GetUserName());
+            var user = await _userRepository.GetUser(GetUserId());
             var imageData = await _imageRepository.Get(user, id);
             if(imageData is null)
             {
@@ -41,7 +41,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMine()
         {
-            var user = await _userRepository.GetUser(GetUserName());
+            var user = await _userRepository.GetUser(GetUserId());
             var images = await _imageRepository.GetMine(user);
             return Ok(images);
         }
@@ -57,7 +57,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOne([FromForm] RequestImage imageInfo)
         {
-            var user = await _userRepository.GetUser(GetUserName());
+            var user = await _userRepository.GetUser(GetUserId());
             var createdStatus = await _imageRepository.Create(user, imageInfo);
             if (createdStatus == ImageCreateStatus.Success)
             {
@@ -81,7 +81,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMany([FromForm] List<IFormFile> files)
         {
-            var user = await _userRepository.GetUser(GetUserName());
+            var user = await _userRepository.GetUser(GetUserId());
             var createdStatus = await _imageRepository.Create(user, files);
             if (createdStatus == ImageBulkCreateStatus.AllSuccess)
             {
@@ -105,7 +105,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpPatch]
         public async Task<IActionResult> Update(ImageUpdate image)
         {
-            var user = await _userRepository.GetUser(GetUserName());
+            var user = await _userRepository.GetUser(GetUserId());
             var updated = await _imageRepository.Update(user, image);
             if(updated is not null)
             {
@@ -118,7 +118,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(List<Guid> ids)
         {
-            var user = await _userRepository.GetUser(GetUserName());
+            var user = await _userRepository.GetUser(GetUserId());
             var deletedStatus = await _imageRepository.Delete(user, ids);
             if(deletedStatus == ImageBulkDeleteStatus.AllSuccess)
             {
@@ -138,9 +138,9 @@ namespace ImageRepositoryW22.Controllers
             }
         }
 
-        private string GetUserName()
+        private Guid GetUserId()
         {
-            return HttpContext.User.Claims.FirstOrDefault(claim => claim.Type=="Username").Value;
+            return Guid.Parse(HttpContext.User.Claims.FirstOrDefault(claim => claim.Type=="id").Value);
         }
     }
 }

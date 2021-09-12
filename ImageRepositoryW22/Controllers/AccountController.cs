@@ -33,9 +33,15 @@ namespace ImageRepositoryW22.Controllers
 
         [HttpGet]
         [Authorize]
-        public IActionResult Me()
+        public async Task<IActionResult> Me()
         {
-            return Ok(new { Username = GetUserName() });
+            var userid = GetUserId();
+            var user = await _userRepository.GetUser(userid);
+            if (user is null)
+            {
+                return BadRequest(new { ErrorMessage = "You are using the unauthorized token of a deleted user." });
+            }
+            return Ok(new { Username = user.UserName });
         }
 
         [HttpPost]
@@ -93,13 +99,13 @@ namespace ImageRepositoryW22.Controllers
         [Authorize]
         public async Task<IActionResult> Delete()
         {
-            var deleted = await _userRepository.DeleteUser(GetUserName());
+            var deleted = await _userRepository.DeleteUser(GetUserId());
             if (!deleted)
             {
                 return BadRequest(new { ErrorMessage = "User not deleted." });
             }
 
-            return Ok();
+            return Ok(new { Message="User deleted successfully." });
         }
 
         private async Task<ApplicationUser> CreateApplicationUser(string username, string password)
@@ -114,8 +120,8 @@ namespace ImageRepositoryW22.Controllers
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            //set the subject claim to the username of the user
-            var claims = new List<Claim>() { new Claim("Username", user.UserName) };
+            //set a claim for the id of the user
+            var claims = new List<Claim>() { new Claim("id", user.Id.ToString()) };
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
@@ -138,10 +144,9 @@ namespace ImageRepositoryW22.Controllers
             }
             return true;
         }
-
-        private string GetUserName()
+        private Guid GetUserId()
         {
-            return HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "Username").Value;
+            return Guid.Parse(HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "id").Value);
         }
     }
 }

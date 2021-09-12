@@ -31,6 +31,7 @@ namespace ImageRepositoryW22
         }
 
         public IConfiguration Configuration { get; }
+        private IServiceProvider _provider { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -53,7 +54,11 @@ namespace ImageRepositoryW22
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = Configuration["Jwt:Issuer"],
                     ValidAudience = Configuration["Jwt:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])),
+                };
+                options.Events = new JwtBearerEvents
+                {
+                    OnTokenValidated = OnTokenValidated
                 };
             });
             services.AddSwaggerGen(c =>
@@ -89,6 +94,25 @@ namespace ImageRepositoryW22
             {
                 endpoints.MapControllers();
             });
+
+            _provider = app.ApplicationServices;
+        }
+        private async Task OnTokenValidated(TokenValidatedContext context)
+        {
+            //Make sure the user in the claim is still a valid user (ex. hasn't deleted their account and is using an old token).
+            var id = context.Principal.Claims.FirstOrDefault(claim => claim.Type == "id").Value;
+            using (var scope = _provider.CreateScope())
+            {
+                var repository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+                var exists = await repository.UserExists(Guid.Parse(id));
+
+                if (!exists)
+                {
+                    context.Fail("Invalid username in token.");
+                }
+            }
+            
+            return;
         }
     }
 }

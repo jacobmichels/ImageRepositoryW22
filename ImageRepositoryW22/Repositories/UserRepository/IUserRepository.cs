@@ -9,8 +9,10 @@ namespace ImageRepositoryW22.Repositories.UserRepository
     public interface IUserRepository
     {
         public Task<ApplicationUser> GetUser(string username);
+        public Task<ApplicationUser> GetUser(Guid id);
         public Task<bool> UserExists(string username);
+        public Task<bool> UserExists(Guid id);
         public Task<bool> InsertUser(ApplicationUser user);
-        public Task<bool> DeleteUser(string username);
+        public Task<bool> DeleteUser(Guid id);
     }
 }
