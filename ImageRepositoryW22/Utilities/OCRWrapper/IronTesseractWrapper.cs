@@ -15,13 +15,13 @@ namespace ImageRepositoryW22.Utilities.OCRWrapper
 
             var ocrInput = new OcrInput(path);
             ocrInput.Binarize();
-            var imageText = RemoveWhiteSpace((await tesseract.ReadAsync(ocrInput)).Text);
+            var imageText = Trim((await tesseract.ReadAsync(ocrInput)).Text);
             return imageText;
         }
 
-        private string RemoveWhiteSpace(string s)
+        private string Trim(string s)
         {
-            return new string(s.Where(c => !char.IsWhiteSpace(c)).ToArray());
+            return new string(s.Where(c => c!='\n' && c!='\t' && c!='\r').ToArray());
         }
     }
 }
