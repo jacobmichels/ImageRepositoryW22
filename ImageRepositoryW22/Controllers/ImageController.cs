@@ -140,7 +140,12 @@ namespace ImageRepositoryW22.Controllers
 
         private Guid GetUserId()
         {
-            return Guid.Parse(HttpContext.User.Claims.FirstOrDefault(claim => claim.Type=="id").Value);
+            var id = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "id");
+            if(id is null)
+            {
+                return Guid.Empty;
+            }
+            return Guid.Parse(id.Value);
         }
     }
 }
