@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace ImageRepositoryW22.Controllers
 {
@@ -31,19 +32,37 @@ namespace ImageRepositoryW22.Controllers
             _config = config;
         }
 
+        /// <summary>
+        /// Check the username associated with the JWT.
+        /// </summary>
+        /// <returns>Returns the username associated with the JWT.</returns>
+        /// <response code="200">Returns the username associated with the JWT.</response>
+        /// <response code="401">Returns 401 when the JWT is not passed or invalid.</response>   
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Me()
         {
             var userid = GetUserId();
             var user = await _userRepository.GetUser(userid);
-            if (user is null)
-            {
-                return BadRequest(new { ErrorMessage = "You are using the unauthorized token of a deleted user." });
-            }
             return Ok(new { Username = user.UserName });
         }
 
+        /// <summary>
+        /// Login to an existing account.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Account/Login
+        ///     Raw
+        ///     {
+        ///        "userName": "Jacob",
+        ///        "password": "123456"
+        ///     }
+        /// </remarks>
+        /// <returns>Returns a fresh JWT for future requests.</returns>
+        /// <response code="200">Successfully authenticate and return the JWT.</response>
+        /// <response code="403">Authentication failed, either the userName does not map to a user, or the password was wrong.</response>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(UserCredentials credentials)
@@ -66,6 +85,23 @@ namespace ImageRepositoryW22.Controllers
             return Ok(token);
         }
 
+        /// <summary>
+        /// Register for a new account.
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Account/Register
+        ///     Raw
+        ///     {
+        ///        "userName": "Jacob",
+        ///        "password": "123456"
+        ///     }
+        /// </remarks>
+        /// <returns>Returns a JWT for future requests.</returns>
+        /// <response code="200">Successfully registered and generated the JWT.</response>
+        /// <response code="400">Registration failed, either the userName/password failed validation, or a user with that userName already exists.</response>
+        /// <response code="401">Unauthorized request.</response>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register(UserCredentials credentials)
@@ -95,6 +131,14 @@ namespace ImageRepositoryW22.Controllers
             return Ok(token);
         }
 
+
+        /// <summary>
+        /// Deletes the current account and all associated images.
+        /// </summary>
+        /// <returns>Returns a status message.</returns>
+        /// <response code="200">Successfully deleted the current user. Future requests with this JWT will be blocked.</response>
+        /// <response code="400">User was not deleted. This could be due to being unable to delete the user's images, or a database error.</response>
+        /// <response code="401">Unauthorized request.</response>
         [HttpDelete]
         [Authorize]
         public async Task<IActionResult> Delete()

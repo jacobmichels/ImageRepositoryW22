@@ -20,6 +20,8 @@ using ImageRepositoryW22.ImageRepository.Repositories;
 using ImageRepositoryW22.Repositories.UserRepository;
 using ImageRepositoryW22.Utilities.PasswordUtilities;
 using ImageRepositoryW22.Utilities.OCRWrapper;
+using System.IO;
+using System.Reflection;
 
 namespace ImageRepositoryW22
 {
@@ -63,7 +65,21 @@ namespace ImageRepositoryW22
             });
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ImageRepositoryW22", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { 
+                    Title = "ImageRepositoryW22",
+                    Version = "v1",
+                    Description="A simple REST API built to serve as an Image Repository.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Jacob Michels",
+                        Email = "jacob.michels2025@gmail.com",
+                        Url = new Uri("https://github.com/jacobmichels"),
+                    },
+                });
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 

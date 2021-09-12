@@ -25,6 +25,17 @@ namespace ImageRepositoryW22.Controllers
             _userRepository = userRepository;
         }
 
+        /// <summary>
+        /// Get image by id.
+        /// </summary>
+        /// <remarks>
+        /// Sample request
+        /// 
+        ///     GET /Image/Get?id=d0836544-8db0-4458-9ca9-445978ba08a4
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <response code="200">Successfully find and return the image.</response>
+        /// <response code="404">Image either does not exist, or the user does not have access to it.</response>
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get(Guid id) {
@@ -37,6 +48,16 @@ namespace ImageRepositoryW22.Controllers
             return File(imageData.Data, "application/octet-stream", imageData.FileName);
         }
 
+        /// <summary>
+        /// Get info on all the user's images.
+        /// </summary>
+        /// <remarks>
+        /// Sample request
+        /// 
+        ///     GET /Image/GetMine
+        /// </remarks>
+        /// <response code="200">Successfully return a list with every image's info owned by the user.</response>
+        /// <response code="401">Unauthorized request.</response>
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetMine()
@@ -45,6 +66,16 @@ namespace ImageRepositoryW22.Controllers
             var images = await _imageRepository.GetMine(user);
             return Ok(images);
         }
+
+        /// <summary>
+        /// Get all public images.
+        /// </summary>
+        /// <remarks>
+        /// Sample request
+        /// 
+        ///     GET /Image/GetAllPublic
+        /// </remarks>
+        /// <response code="200">Successfully find and return all public images info.</response>
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllPublic()
@@ -53,6 +84,24 @@ namespace ImageRepositoryW22.Controllers
             return Ok(images);
         }
 
+        /// <summary>
+        /// Upload a single image.
+        /// </summary>
+        /// <remarks>
+        /// Sample request
+        /// 
+        ///     POST /Image/CreateOne
+        ///     FormData
+        ///     {
+        ///         Name : The city
+        ///         Description : Skyline
+        ///         Private : false
+        ///         File : {FILE} (if multiple files are uploaded, only the first in the sequence will be processed.)
+        ///     }
+        /// </remarks>
+        /// <response code="200">Successfully create the image and return it's info.</response>
+        /// <response code="400">Failed to create the image. Likely causes are either image size > 100MB or file has a non-image extension. </response>
+        /// <response code="401">Unauthorized request.</response>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateOne([FromForm] RequestImage imageInfo)
@@ -77,6 +126,21 @@ namespace ImageRepositoryW22.Controllers
             }
         }
 
+        /// <summary>
+        /// Upload a single image.
+        /// </summary>
+        /// <remarks>
+        /// Sample request
+        /// 
+        ///     POST /Image/CreateMany
+        ///     FormData
+        ///     {
+        ///         files : {MULTIPLE FILES}
+        ///     }
+        /// </remarks>
+        /// <response code="200">Successfully created the images and returned their info.</response>
+        /// <response code="400">Failed to create the images. Likely causes are either image size > 100MB or file has a non-image extension. If one image fails, they all fail.</response>
+        /// <response code="401">Unauthorized request.</response>
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateMany([FromForm] List<IFormFile> files)
@@ -100,7 +164,24 @@ namespace ImageRepositoryW22.Controllers
                 return StatusCode(500, new { ErrorMessage = "Images were not saved due to a database error. Please try again later." });
             }
         }
-
+        /// <summary>
+        /// Update an image's info.
+        /// </summary>
+        /// <remarks>
+        /// Sample request
+        /// 
+        ///     PATCH /Image/Update
+        ///     Raw
+        ///     {
+        ///         "id": "d0836544-8db0-4458-9ca9-445978ba08a4",
+        ///         "name": "new name",
+        ///         "description":"new description",
+        ///         "private": "true"
+        ///     }
+        /// </remarks>
+        /// <response code="200">Successfully update the image and return it's new info.</response>
+        /// <response code="400">Failed to update the image. This will happen if the image to update cannot be found.</response>
+        /// <response code="401">Unauthorized request.</response>
         [Authorize]
         [HttpPatch]
         public async Task<IActionResult> Update(ImageUpdate image)
@@ -114,6 +195,22 @@ namespace ImageRepositoryW22.Controllers
             return BadRequest("Problem updating image.");
         }
 
+        /// <summary>
+        /// Delete an image.
+        /// </summary>
+        /// <remarks>
+        /// Sample request
+        /// 
+        ///     Delete /Image/Update
+        ///     Raw
+        ///     [
+        ///         "d0836544-8db0-4458-9ca9-445978ba08a4",
+        ///         "1d12da58-623d-4148-b684-16a1224169eb"
+        ///     ]
+        /// </remarks>
+        /// <response code="200">Successfully deleted the image(s).</response>
+        /// <response code="400">Failed to delete the image(s). This will happen if the image(s) to delete cannot be found. If one image in the list fails to be deleted, the rest will be not be deleted.</response>
+        /// <response code="401">Unauthorized request.</response>
         [Authorize]
         [HttpDelete]
         public async Task<IActionResult> Delete(List<Guid> ids)
