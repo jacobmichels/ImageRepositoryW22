@@ -25,6 +25,15 @@ namespace ImageRepositoryW22.Controllers
             _controllerUtility = controllerUtility;
         }
 
+        /// <summary>
+        /// Search for public images that contain the specified string.
+        /// </summary>
+        /// <remarks>
+        /// Sample request
+        /// 
+        ///     GET /Search/SearchAllPublic?text=example
+        /// </remarks>
+        /// <response code="200">Successfully find and return all public images that contain the text.</response>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> SearchAllPublic(string text)
@@ -32,6 +41,15 @@ namespace ImageRepositoryW22.Controllers
             return Ok(await _imageRepository.SearchAllPublic(text));
         }
 
+        /// <summary>
+        /// Search for owned images that contain the specified string.
+        /// </summary>
+        /// <remarks>
+        /// Sample request
+        /// 
+        ///     GET /Search/SearchMine?text=example
+        /// </remarks>
+        /// <response code="200">Successfully find and return all owned images that contain the text.</response>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> SearchMine(string text)
