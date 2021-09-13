@@ -227,6 +227,16 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return MapToImageInfo(image);
         }
 
+        public async Task<List<ImageInfo>> SearchMine(ApplicationUser user, string text)
+        {
+            return MapListToImageInfo(await _db.Images.Where(image => image.Owner.Id == user.Id && image.ImageText.Contains(text)).ToListAsync());
+        }
+
+        public async Task<List<ImageInfo>> SearchAllPublic(string text)
+        {
+            return MapListToImageInfo(await _db.Images.Where(image => image.Private == false && image.ImageText.Contains(text)).ToListAsync());
+        }
+
         private DatabaseImage BuildDatabaseImage(ApplicationUser user, RequestImage image)
         {
             var databaseImage = new DatabaseImage()

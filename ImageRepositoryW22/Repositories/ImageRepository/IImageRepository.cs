@@ -22,7 +22,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
 
         public Task<ImageBulkDeleteStatus> Delete(ApplicationUser user, List<Guid> ids);
 
-        public Task<ImageInfo> SearchMine(ApplicationUser user, string text);
-        public Task<ImageInfo> SearchAllPublic(string text);
+        public Task<List<ImageInfo>> SearchMine(ApplicationUser user, string text);
+        public Task<List<ImageInfo>> SearchAllPublic(string text);
     }
 }
