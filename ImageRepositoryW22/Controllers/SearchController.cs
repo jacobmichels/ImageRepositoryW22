@@ -29,15 +29,15 @@ namespace ImageRepositoryW22.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SearchAllPublic(string text)
         {
-            return await _imageRepository.SearchAllPublic(text);
+            return Ok(await _imageRepository.SearchAllPublic(text));
         }
 
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> SearchMine(string text)
         {
-            var user = _userRepository.GetUser(_controllerUtility.GetUserId(HttpContext));
-            return await _imageRepository.SearchMine(user, text);
+            var user = await _userRepository.GetUser(_controllerUtility.GetUserId(HttpContext));
+            return Ok(await _imageRepository.SearchMine(user, text));
         }
     }
 }
