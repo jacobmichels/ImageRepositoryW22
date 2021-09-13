@@ -17,9 +17,8 @@ namespace ImageRepositoryW22.Utilities.Enums
 
         public enum ImageBulkCreateStatus
         {
-            AllSuccess,
-            AtLeastOneFail,
-            AllFail,
+            Success,
+            Fail,
             DatabaseError
         }
 
@@ -32,9 +31,8 @@ namespace ImageRepositoryW22.Utilities.Enums
 
         public enum ImageBulkDeleteStatus
         {
-            AllSuccess,
-            AtLeastOneFail,
-            AllFail,
+            Success,
+            Fail,
             DatabaseError
         }
     }

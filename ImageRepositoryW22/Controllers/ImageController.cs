@@ -147,17 +147,13 @@ namespace ImageRepositoryW22.Controllers
         {
             var user = await _userRepository.GetUser(GetUserId());
             var createdStatus = await _imageRepository.Create(user, files);
-            if (createdStatus == ImageBulkCreateStatus.AllSuccess)
+            if (createdStatus == ImageBulkCreateStatus.Success)
             {
                 return Ok(new { Message = "Images successfully created." });
             }
-            else if (createdStatus == ImageBulkCreateStatus.AllFail)
+            else if (createdStatus == ImageBulkCreateStatus.Fail)
             {
-                return BadRequest(new { ErrorMessage = "All images failed to be created. Please check their sizes and file extensions." });
-            }
-            else if (createdStatus == ImageBulkCreateStatus.AtLeastOneFail)
-            {
-                return BadRequest(new { ErrorMessage = "At least one image failed to be created. Please check their sizes and file extensions." });
+                return BadRequest(new { ErrorMessage = "At least one image failed validation. Please check their sizes and file extensions." });
             }
             else
             {
@@ -217,17 +213,13 @@ namespace ImageRepositoryW22.Controllers
         {
             var user = await _userRepository.GetUser(GetUserId());
             var deletedStatus = await _imageRepository.Delete(user, ids);
-            if(deletedStatus == ImageBulkDeleteStatus.AllSuccess)
+            if(deletedStatus == ImageBulkDeleteStatus.Success)
             {
                 return Ok(new { Message= "Images successfully deleted." });
             }
-            else if(deletedStatus == ImageBulkDeleteStatus.AtLeastOneFail)
+            else if(deletedStatus == ImageBulkDeleteStatus.Fail)
             {
-                return Ok(new { Message = "Some images were not deleted. Please check that you own the images you are trying to delete." });
-            }
-            else if(deletedStatus == ImageBulkDeleteStatus.AllFail)
-            {
-                return NotFound(new { ErrorMessage = "No images were deleted. Please check that you own the images you are trying to delete." });
+                return Ok(new { Message = "At least one image failed validation. Please check that you own the images you are trying to delete. Nothing has been deleted." });
             }
             else
             {

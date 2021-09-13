@@ -54,7 +54,7 @@ namespace ImageRepositoryW22.Repositories.UserRepository
                 }
 
                 var deleteStatus = await _imageRepository.Delete(user, idsToDelete);
-                if (deleteStatus == ImageBulkDeleteStatus.AllFail || deleteStatus == ImageBulkDeleteStatus.AtLeastOneFail || deleteStatus == ImageBulkDeleteStatus.DatabaseError)
+                if (deleteStatus == ImageBulkDeleteStatus.Fail || deleteStatus == ImageBulkDeleteStatus.DatabaseError)
                 {
                     return false;
                 }

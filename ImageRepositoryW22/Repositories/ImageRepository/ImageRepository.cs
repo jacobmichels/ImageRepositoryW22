@@ -70,27 +70,27 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
 
         public async Task<ImageBulkCreateStatus> Create(ApplicationUser user, List<IFormFile> images)
         {
-            ImageBulkCreateStatus returnVal = ImageBulkCreateStatus.AllSuccess; 
+            //validation loop
             foreach (var image in images)
             {
                 //Make sure users can't upload large files (> 100MB)
                 if (image.Length > 100000000)
                 {
-                    images.Remove(image);
                     _logger.LogWarning($"User: {user.UserName} Tried to upload file with size {image.Length}");
-                    returnVal = ImageBulkCreateStatus.AtLeastOneFail;
-                    continue;
+                    return ImageBulkCreateStatus.Fail;
                 }
                 //Make sure the file extension is an image. This is a repository for images only.
                 var fileExtension = Path.GetExtension(image.FileName);
                 if (!IsValidFileExtension(fileExtension))
                 {
                     _logger.LogWarning($"User: {user.UserName} Tried to upload file with invalid extension: {fileExtension}");
-                    images.Remove(image);
-                    returnVal = ImageBulkCreateStatus.AtLeastOneFail;
-                    continue;
+                    return ImageBulkCreateStatus.Fail;
                 }
+            }
 
+            //once we know all images are ok to be created, we create them.
+            foreach (var image in images)
+            {
                 var databaseImage = BuildDatabaseImageBulk(user, image);
                 Directory.CreateDirectory(Path.Join("UserImages", $"{user.Id}"));
                 using (var stream = File.Create(databaseImage.Path))
@@ -103,11 +103,6 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 await _db.Images.AddAsync(databaseImage);
             }
 
-            if(images.Count == 0)
-            {
-                return ImageBulkCreateStatus.AllFail;
-            }
-
             try
             {
                 await _db.SaveChangesAsync();
@@ -118,20 +113,30 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 return ImageBulkCreateStatus.DatabaseError;
             }
 
-            return returnVal;
+            return ImageBulkCreateStatus.Success;
         }
 
         public async Task<ImageBulkDeleteStatus> Delete(ApplicationUser user, List<Guid> ids)
         {
-            var images = await _db.Images.Where(image => ids.Contains(image.Id) && image.Owner.UserName == user.UserName).ToListAsync();
-            if(images is null || images.Count == 0)
+            if(ids is null || ids.Count == 0)
             {
-                return ImageBulkDeleteStatus.AllFail;
+                return ImageBulkDeleteStatus.Fail;
             }
-            int count = 0;
-            foreach(var image in images)
+
+            //validation loop
+            foreach (var id in ids)
             {
-                count++;
+                var image = await Get(user, id);
+                if (image is null)
+                {
+                    return ImageBulkDeleteStatus.Fail;
+                }
+            }
+
+            //now since we know every id in the list is valid, we can delete their associated images
+            foreach(var id in ids)
+            {
+                var image = await _db.Images.FirstOrDefaultAsync(x => x.Id == id);
 
                 File.Delete(image.Path);
 
@@ -148,11 +153,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 return ImageBulkDeleteStatus.DatabaseError;
             }
 
-            if (count == ids.Count)
-            {
-                return ImageBulkDeleteStatus.AllSuccess;
-            }
-            return ImageBulkDeleteStatus.AtLeastOneFail;
+            return ImageBulkDeleteStatus.Success;
         }
 
         //Return image data only here. Check if user is null, and make sure the image is either public or the user owns the image
