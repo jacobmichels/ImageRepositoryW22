@@ -1,15 +1,30 @@
 {
 	"info": {
-		"_postman_id": "f6803d76-e884-4014-9113-d4e13f793f33",
+		"_postman_id": "f4a1298e-564a-4447-98d9-c31bf6fb0964",
 		"name": "Image Repository Requests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Account Controller",
+			"name": "Flow 1: Happy path",
 			"item": [
 				{
 					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token\", pm.response.text());\r",
+									"\r",
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -41,39 +56,24 @@
 					"response": []
 				},
 				{
-					"name": "Login",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"jacob\",\r\n    \"password\":\"123456\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://localhost:5001/Account/Login",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "5001",
-							"path": [
-								"Account",
-								"Login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct username\",()=>{\r",
+									"    pm.response.to.have.body({\"Username\":\"jacob\"})\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -93,7 +93,101 @@
 					"response": []
 				},
 				{
+					"name": "Create One",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "MyImage",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "A brief description",
+									"type": "text"
+								},
+								{
+									"key": "Private",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "File",
+									"type": "file",
+									"src": "wildlife.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/CreateOne",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"CreateOne"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Many",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": [
+										"/C:/Users/jacob/Pictures/course-sense-landing-page.png",
+										"/C:/Users/jacob/Pictures/Focal-Fossa_WP_2560x1440.png",
+										"/C:/Users/jacob/Pictures/Focal-Fossa-wallpaper.jpg"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/CreateMany",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"CreateMany"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token\",\"\");\r",
+									"\r",
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -188,85 +282,6 @@
 					"response": []
 				},
 				{
-					"name": "Create One",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "Name",
-									"value": "MyImage",
-									"type": "text"
-								},
-								{
-									"key": "Description",
-									"value": "A brief description",
-									"type": "text"
-								},
-								{
-									"key": "Private",
-									"value": "false",
-									"type": "text"
-								},
-								{
-									"key": "File",
-									"type": "file",
-									"src": "/C:/Users/jacob/Pictures/Screenshot 2021-09-11 172147.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "https://localhost:5001/Image/CreateOne",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "5001",
-							"path": [
-								"Image",
-								"CreateOne"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Create Many",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "files",
-									"type": "file",
-									"src": [
-										"/C:/Users/jacob/Pictures/course-sense-landing-page.png",
-										"/C:/Users/jacob/Pictures/Focal-Fossa_WP_2560x1440.png",
-										"/C:/Users/jacob/Pictures/Focal-Fossa-wallpaper.jpg"
-									]
-								}
-							]
-						},
-						"url": {
-							"raw": "https://localhost:5001/Image/CreateMany",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "5001",
-							"path": [
-								"Image",
-								"CreateMany"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Update Image",
 					"request": {
 						"method": "PATCH",
@@ -325,6 +340,49 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"token\",pm.response.text());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"jacob\",\r\n    \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/Account/Login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"Account",
+						"Login"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -332,7 +390,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRiYTcxNjUwLTc4OTAtNDk0ZC1hZDE3LTliYmZiZTk0ZmJhNSIsImV4cCI6MTYzMTQ3NzA0NSwiaXNzIjoiSW1hZ2VSZXBvIiwiYXVkIjoiSW1hZ2VSZXBvIn0.Ag_V6x-AbGw-P9mEb2oxh_z9bh3gwEPCo3KjJs_218Q",
+				"value": "{{token}}",
 				"type": "string"
 			}
 		]
@@ -355,6 +413,12 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
 		}
 	]
 }
