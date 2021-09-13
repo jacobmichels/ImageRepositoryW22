@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Text;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using ImageRepositoryW22.Utilities.ControllerUtility;
 
 namespace ImageRepositoryW22.Controllers
 {
@@ -23,12 +24,14 @@ namespace ImageRepositoryW22.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordUtilities _passwordUtils;
+        private readonly IControllerUtility _controllerUtility;
         private readonly IConfiguration _config;
 
-        public AccountController(IUserRepository userRepository, IPasswordUtilities passwordUtils, IConfiguration config)
+        public AccountController(IUserRepository userRepository, IPasswordUtilities passwordUtils, IConfiguration config, IControllerUtility controllerUtility)
         {
             _userRepository = userRepository;
             _passwordUtils = passwordUtils;
+            _controllerUtility = controllerUtility;
             _config = config;
         }
 
@@ -42,7 +45,7 @@ namespace ImageRepositoryW22.Controllers
         [Authorize]
         public async Task<IActionResult> Me()
         {
-            var userid = GetUserId();
+            var userid = _controllerUtility.GetUserId(HttpContext);
             var user = await _userRepository.GetUser(userid);
             return Ok(new { Username = user.UserName });
         }
@@ -143,7 +146,7 @@ namespace ImageRepositoryW22.Controllers
         [Authorize]
         public async Task<IActionResult> Delete()
         {
-            var deleted = await _userRepository.DeleteUser(GetUserId());
+            var deleted = await _userRepository.DeleteUser(_controllerUtility.GetUserId(HttpContext));
             if (!deleted)
             {
                 return BadRequest(new { ErrorMessage = "User not deleted." });
@@ -187,15 +190,6 @@ namespace ImageRepositoryW22.Controllers
                 return false;
             }
             return true;
-        }
-        private Guid GetUserId()
-        {
-            var id = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "id");
-            if (id is null)
-            {
-                return Guid.Empty;
-            }
-            return Guid.Parse(id.Value);
         }
     }
 }

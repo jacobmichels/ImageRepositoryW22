@@ -1,6 +1,7 @@
 ﻿using ImageRepositoryW22.ImageRepository.Repositories;
 using ImageRepositoryW22.Repositories.Models;
 using ImageRepositoryW22.Repositories.UserRepository;
+using ImageRepositoryW22.Utilities.ControllerUtility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,10 +20,12 @@ namespace ImageRepositoryW22.Controllers
     {
         private readonly IImageRepository _imageRepository;
         private readonly IUserRepository _userRepository;
-        public ImageController(IImageRepository imageRepository, IUserRepository userRepository)
+        private readonly IControllerUtility _controllerUtility;
+        public ImageController(IImageRepository imageRepository, IUserRepository userRepository, IControllerUtility controllerUtility)
         {
             _imageRepository = imageRepository;
             _userRepository = userRepository;
+            _controllerUtility = controllerUtility;
         }
 
         /// <summary>
@@ -39,7 +42,7 @@ namespace ImageRepositoryW22.Controllers
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get(Guid id) {
-            var user = await _userRepository.GetUser(GetUserId());
+            var user = await _userRepository.GetUser(_controllerUtility.GetUserId(HttpContext));
             var imageData = await _imageRepository.Get(user, id);
             if(imageData is null)
             {
@@ -62,7 +65,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMine()
         {
-            var user = await _userRepository.GetUser(GetUserId());
+            var user = await _userRepository.GetUser(_controllerUtility.GetUserId(HttpContext));
             var images = await _imageRepository.GetMine(user);
             return Ok(images);
         }
@@ -106,7 +109,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOne([FromForm] RequestImage imageInfo)
         {
-            var user = await _userRepository.GetUser(GetUserId());
+            var user = await _userRepository.GetUser(_controllerUtility.GetUserId(HttpContext));
             var createdStatus = await _imageRepository.Create(user, imageInfo);
             if (createdStatus == ImageCreateStatus.Success)
             {
@@ -145,7 +148,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMany([FromForm] List<IFormFile> files)
         {
-            var user = await _userRepository.GetUser(GetUserId());
+            var user = await _userRepository.GetUser(_controllerUtility.GetUserId(HttpContext));
             var createdStatus = await _imageRepository.Create(user, files);
             if (createdStatus == ImageBulkCreateStatus.Success)
             {
@@ -182,7 +185,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpPatch]
         public async Task<IActionResult> Update(ImageUpdate image)
         {
-            var user = await _userRepository.GetUser(GetUserId());
+            var user = await _userRepository.GetUser(_controllerUtility.GetUserId(HttpContext));
             var updated = await _imageRepository.Update(user, image);
             if(updated is not null)
             {
@@ -211,7 +214,7 @@ namespace ImageRepositoryW22.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(List<Guid> ids)
         {
-            var user = await _userRepository.GetUser(GetUserId());
+            var user = await _userRepository.GetUser(_controllerUtility.GetUserId(HttpContext));
             var deletedStatus = await _imageRepository.Delete(user, ids);
             if(deletedStatus == ImageBulkDeleteStatus.Success)
             {
@@ -225,16 +228,6 @@ namespace ImageRepositoryW22.Controllers
             {
                 return StatusCode(500, new { ErrorMessage = "Image was not deleted due to a database error.Please try again later." });
             }
-        }
-
-        private Guid GetUserId()
-        {
-            var id = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "id");
-            if(id is null)
-            {
-                return Guid.Empty;
-            }
-            return Guid.Parse(id.Value);
         }
     }
 }
