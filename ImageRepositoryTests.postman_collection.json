@@ -1,0 +1,360 @@
+{
+	"info": {
+		"_postman_id": "f6803d76-e884-4014-9113-d4e13f793f33",
+		"name": "Image Repository Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Account Controller",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"jacob\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/Account/Register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"jacob\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/Account/Login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Account/Me",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:5001/Account/Delete",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Image Controller",
+			"item": [
+				{
+					"name": "Get By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Image/Get?id=0be826c7-ad21-40bc-9277-ec3e8a04d0b3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"Get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "0be826c7-ad21-40bc-9277-ec3e8a04d0b3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Mine",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Image/GetMine",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"GetMine"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Public",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Image/GetAllPublic",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"GetAllPublic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create One",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "MyImage",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "A brief description",
+									"type": "text"
+								},
+								{
+									"key": "Private",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "File",
+									"type": "file",
+									"src": "/C:/Users/jacob/Pictures/Screenshot 2021-09-11 172147.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/CreateOne",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"CreateOne"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Many",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": [
+										"/C:/Users/jacob/Pictures/course-sense-landing-page.png",
+										"/C:/Users/jacob/Pictures/Focal-Fossa_WP_2560x1440.png",
+										"/C:/Users/jacob/Pictures/Focal-Fossa-wallpaper.jpg"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/CreateMany",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"CreateMany"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Image",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"6697350a-f191-432b-bd2f-63df678c0043\",\r\n    \"name\": \"Updated Name\",\r\n    \"description\": \"Updated Desc\",\r\n    \"private\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/Update",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"Update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"c5f86482-74f1-46e8-b130-cbe4a7f4cd2d\",\r\n    \"d0724c05-9917-416b-a6fd-3e7d722e8704\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/Delete",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"Delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRiYTcxNjUwLTc4OTAtNDk0ZC1hZDE3LTliYmZiZTk0ZmJhNSIsImV4cCI6MTYzMTQ3NzA0NSwiaXNzIjoiSW1hZ2VSZXBvIiwiYXVkIjoiSW1hZ2VSZXBvIn0.Ag_V6x-AbGw-P9mEb2oxh_z9bh3gwEPCo3KjJs_218Q",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
