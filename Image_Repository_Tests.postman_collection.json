@@ -40,14 +40,11 @@
 									}
 								},
 								"url": {
-									"raw": "https://localhost:5001/Account/Register",
-									"protocol": "https",
+									"raw": "{{base_url}}Account/Register",
 									"host": [
-										"localhost"
+										"{{base_url}}Account"
 									],
-									"port": "5001",
 									"path": [
-										"Account",
 										"Register"
 									]
 								}
@@ -83,14 +80,11 @@
 									}
 								},
 								"url": {
-									"raw": "https://localhost:5001/Account/Login",
-									"protocol": "https",
+									"raw": "{{base_url}}Account/Login",
 									"host": [
-										"localhost"
+										"{{base_url}}Account"
 									],
-									"port": "5001",
 									"path": [
-										"Account",
 										"Login"
 									]
 								}
@@ -114,14 +108,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:5001/Account/Me",
-									"protocol": "https",
+									"raw": "{{base_url}}Account/Me",
 									"host": [
-										"localhost"
+										"{{base_url}}Account"
 									],
-									"port": "5001",
 									"path": [
-										"Account",
 										"Me"
 									]
 								}
@@ -149,14 +140,11 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "https://localhost:5001/Account/Delete",
-									"protocol": "https",
+									"raw": "{{base_url}}Account/Delete",
 									"host": [
-										"localhost"
+										"{{base_url}}Account"
 									],
-									"port": "5001",
 									"path": [
-										"Account",
 										"Delete"
 									]
 								}
@@ -174,14 +162,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:5001/Image/Get?id=0be826c7-ad21-40bc-9277-ec3e8a04d0b3",
-									"protocol": "https",
+									"raw": "{{base_url}}Image/Get?id=0be826c7-ad21-40bc-9277-ec3e8a04d0b3",
 									"host": [
-										"localhost"
+										"{{base_url}}Image"
 									],
-									"port": "5001",
 									"path": [
-										"Image",
 										"Get"
 									],
 									"query": [
@@ -200,14 +185,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:5001/Image/GetMine",
-									"protocol": "https",
+									"raw": "{{base_url}}Image/GetMine",
 									"host": [
-										"localhost"
+										"{{base_url}}Image"
 									],
-									"port": "5001",
 									"path": [
-										"Image",
 										"GetMine"
 									]
 								}
@@ -220,14 +202,11 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "https://localhost:5001/Image/GetAllPublic",
-									"protocol": "https",
+									"raw": "{{base_url}}Image/GetAllPublic",
 									"host": [
-										"localhost"
+										"{{base_url}}Image"
 									],
-									"port": "5001",
 									"path": [
-										"Image",
 										"GetAllPublic"
 									]
 								}
@@ -265,14 +244,11 @@
 									]
 								},
 								"url": {
-									"raw": "https://localhost:5001/Image/CreateOne",
-									"protocol": "https",
+									"raw": "{{base_url}}Image/CreateOne",
 									"host": [
-										"localhost"
+										"{{base_url}}Image"
 									],
-									"port": "5001",
 									"path": [
-										"Image",
 										"CreateOne"
 									]
 								}
@@ -300,12 +276,10 @@
 									]
 								},
 								"url": {
-									"raw": "https://localhost:5001/Image/CreateMany",
-									"protocol": "https",
+									"raw": "{{base_url}}/Image/CreateMany",
 									"host": [
-										"localhost"
+										"{{base_url}}"
 									],
-									"port": "5001",
 									"path": [
 										"Image",
 										"CreateMany"
@@ -329,14 +303,11 @@
 									}
 								},
 								"url": {
-									"raw": "https://localhost:5001/Image/Update",
-									"protocol": "https",
+									"raw": "{{base_url}}Image/Update",
 									"host": [
-										"localhost"
+										"{{base_url}}Image"
 									],
-									"port": "5001",
 									"path": [
-										"Image",
 										"Update"
 									]
 								}
@@ -358,14 +329,11 @@
 									}
 								},
 								"url": {
-									"raw": "https://localhost:5001/Image/Delete",
-									"protocol": "https",
+									"raw": "{{base_url}}Image/Delete",
 									"host": [
-										"localhost"
+										"{{base_url}}Image"
 									],
-									"port": "5001",
 									"path": [
-										"Image",
 										"Delete"
 									]
 								}
@@ -412,14 +380,11 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:5001/Account/Register",
-							"protocol": "https",
+							"raw": "{{base_url}}Account/Register",
 							"host": [
-								"localhost"
+								"{{base_url}}Account"
 							],
-							"port": "5001",
 							"path": [
-								"Account",
 								"Register"
 							]
 						}
@@ -449,14 +414,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:5001/Account/Me",
-							"protocol": "https",
+							"raw": "{{base_url}}Account/Me",
 							"host": [
-								"localhost"
+								"{{base_url}}Account"
 							],
-							"port": "5001",
 							"path": [
-								"Account",
 								"Me"
 							]
 						}
@@ -518,14 +480,11 @@
 							]
 						},
 						"url": {
-							"raw": "https://localhost:5001/Image/CreateOne",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/CreateOne",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"CreateOne"
 							]
 						}
@@ -560,14 +519,11 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:5001/Image/Update",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/Update",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"Update"
 							]
 						}
@@ -600,14 +556,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:5001/Image/GetMine",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/GetMine",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"GetMine"
 							]
 						}
@@ -662,14 +615,11 @@
 							]
 						},
 						"url": {
-							"raw": "https://localhost:5001/Image/CreateMany",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/CreateMany",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"CreateMany"
 							]
 						}
@@ -695,14 +645,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:5001/Image/Get?id={{image_guid}}",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/Get?id={{image_guid}}",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"Get"
 							],
 							"query": [
@@ -743,14 +690,11 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:5001/Image/Delete",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/Delete",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"Delete"
 							]
 						}
@@ -776,14 +720,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:5001/Image/Get?id={{image_guid}}",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/Get?id={{image_guid}}",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"Get"
 							],
 							"query": [
@@ -819,14 +760,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:5001/Image/GetMine",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/GetMine",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"GetMine"
 							]
 						}
@@ -858,14 +796,11 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:5001/Account/Delete",
-							"protocol": "https",
+							"raw": "{{base_url}}Account/Delete",
 							"host": [
-								"localhost"
+								"{{base_url}}Account"
 							],
-							"port": "5001",
 							"path": [
-								"Account",
 								"Delete"
 							]
 						}
@@ -910,14 +845,11 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:5001/Account/Register",
-							"protocol": "https",
+							"raw": "{{base_url}}Account/Register",
 							"host": [
-								"localhost"
+								"{{base_url}}Account"
 							],
-							"port": "5001",
 							"path": [
-								"Account",
 								"Register"
 							]
 						}
@@ -947,14 +879,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:5001/Account/Me",
-							"protocol": "https",
+							"raw": "{{base_url}}Account/Me",
 							"host": [
-								"localhost"
+								"{{base_url}}Account"
 							],
-							"port": "5001",
 							"path": [
-								"Account",
 								"Me"
 							]
 						}
@@ -1016,14 +945,11 @@
 							]
 						},
 						"url": {
-							"raw": "https://localhost:5001/Image/CreateOne",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/CreateOne",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"CreateOne"
 							]
 						}
@@ -1056,14 +982,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:5001/Image/GetMine",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/GetMine",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"GetMine"
 							]
 						}
@@ -1103,14 +1026,11 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:5001/Account/Register",
-							"protocol": "https",
+							"raw": "{{base_url}}Account/Register",
 							"host": [
-								"localhost"
+								"{{base_url}}Account"
 							],
-							"port": "5001",
 							"path": [
-								"Account",
 								"Register"
 							]
 						}
@@ -1150,14 +1070,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:5001/Account/Me",
-							"protocol": "https",
+							"raw": "{{base_url}}Account/Me",
 							"host": [
-								"localhost"
+								"{{base_url}}Account"
 							],
-							"port": "5001",
 							"path": [
-								"Account",
 								"Me"
 							]
 						}
@@ -1193,14 +1110,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:5001/Image/Get?id={{image_guid}}",
-							"protocol": "https",
+							"raw": "{{base_url}}Image/Get?id={{image_guid}}",
 							"host": [
-								"localhost"
+								"{{base_url}}Image"
 							],
-							"port": "5001",
 							"path": [
-								"Image",
 								"Get"
 							],
 							"query": [
@@ -1238,14 +1152,11 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:5001/Account/Delete",
-							"protocol": "https",
+							"raw": "{{base_url}}Account/Delete",
 							"host": [
-								"localhost"
+								"{{base_url}}Account"
 							],
-							"port": "5001",
 							"path": [
-								"Account",
 								"Delete"
 							]
 						}
@@ -1287,14 +1198,11 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://localhost:5001/Account/Delete",
-							"protocol": "https",
+							"raw": "{{base_url}}Account/Delete",
 							"host": [
-								"localhost"
+								"{{base_url}}Account"
 							],
-							"port": "5001",
 							"path": [
-								"Account",
 								"Delete"
 							]
 						}
@@ -1334,14 +1242,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://localhost:5001/Account/Me",
-											"protocol": "https",
+											"raw": "{{base_url}}Account/Me",
 											"host": [
-												"localhost"
+												"{{base_url}}Account"
 											],
-											"port": "5001",
 											"path": [
-												"Account",
 												"Me"
 											]
 										}
@@ -1374,14 +1279,11 @@
 											"raw": ""
 										},
 										"url": {
-											"raw": "https://localhost:5001/Account/Delete",
-											"protocol": "https",
+											"raw": "{{base_url}}Account/Delete",
 											"host": [
-												"localhost"
+												"{{base_url}}Account"
 											],
-											"port": "5001",
 											"path": [
-												"Account",
 												"Delete"
 											]
 										}
@@ -1415,14 +1317,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://localhost:5001/Image/GetMine",
-											"protocol": "https",
+											"raw": "{{base_url}}Image/GetMine",
 											"host": [
-												"localhost"
+												"{{base_url}}Image"
 											],
-											"port": "5001",
 											"path": [
-												"Image",
 												"GetMine"
 											]
 										}
@@ -1485,14 +1384,11 @@
 											]
 										},
 										"url": {
-											"raw": "https://localhost:5001/Image/CreateOne",
-											"protocol": "https",
+											"raw": "{{base_url}}Image/CreateOne",
 											"host": [
-												"localhost"
+												"{{base_url}}Image"
 											],
-											"port": "5001",
 											"path": [
-												"Image",
 												"CreateOne"
 											]
 										}
@@ -1536,14 +1432,11 @@
 											]
 										},
 										"url": {
-											"raw": "https://localhost:5001/Image/CreateMany",
-											"protocol": "https",
+											"raw": "{{base_url}}Image/CreateMany",
 											"host": [
-												"localhost"
+												"{{base_url}}Image"
 											],
-											"port": "5001",
 											"path": [
-												"Image",
 												"CreateMany"
 											]
 										}
@@ -1581,14 +1474,11 @@
 											}
 										},
 										"url": {
-											"raw": "https://localhost:5001/Image/Update",
-											"protocol": "https",
+											"raw": "{{base_url}}Image/Update",
 											"host": [
-												"localhost"
+												"{{base_url}}Image"
 											],
-											"port": "5001",
 											"path": [
-												"Image",
 												"Update"
 											]
 										}
@@ -1626,14 +1516,11 @@
 											}
 										},
 										"url": {
-											"raw": "https://localhost:5001/Image/Delete",
-											"protocol": "https",
+											"raw": "{{base_url}}Image/Delete",
 											"host": [
-												"localhost"
+												"{{base_url}}Image"
 											],
-											"port": "5001",
 											"path": [
-												"Image",
 												"Delete"
 											]
 										}
@@ -1672,14 +1559,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://localhost:5001/Image/Get?id={{image_guid}}",
-											"protocol": "https",
+											"raw": "{{base_url}}Image/Get?id={{image_guid}}",
 											"host": [
-												"localhost"
+												"{{base_url}}Image"
 											],
-											"port": "5001",
 											"path": [
-												"Image",
 												"Get"
 											],
 											"query": [
@@ -1714,14 +1598,11 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "https://localhost:5001/Image/GetAllPublic",
-											"protocol": "https",
+											"raw": "{{base_url}}Image/GetAllPublic",
 											"host": [
-												"localhost"
+												"{{base_url}}Image"
 											],
-											"port": "5001",
 											"path": [
-												"Image",
 												"GetAllPublic"
 											]
 										}
@@ -1764,14 +1645,11 @@
 											}
 										},
 										"url": {
-											"raw": "https://localhost:5001/Account/Register",
-											"protocol": "https",
+											"raw": "{{base_url}}Account/Register",
 											"host": [
-												"localhost"
+												"{{base_url}}Account"
 											],
-											"port": "5001",
 											"path": [
-												"Account",
 												"Register"
 											]
 										}
@@ -1809,14 +1687,11 @@
 											}
 										},
 										"url": {
-											"raw": "https://localhost:5001/Account/Login",
-											"protocol": "https",
+											"raw": "{{base_url}}Account/Login",
 											"host": [
-												"localhost"
+												"{{base_url}}Account"
 											],
-											"port": "5001",
 											"path": [
-												"Account",
 												"Login"
 											]
 										}
@@ -1872,6 +1747,10 @@
 		{
 			"key": "token_alt",
 			"value": ""
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000/"
 		}
 	]
 }
