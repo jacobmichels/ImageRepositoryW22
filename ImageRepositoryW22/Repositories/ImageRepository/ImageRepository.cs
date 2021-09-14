@@ -23,13 +23,13 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             _db = db;
             _logger = logger;
         }
-        public async Task<ImageCreateStatus> Create(ApplicationUser user, RequestImage image)
+        public async Task<(ImageCreateStatus, ImageInfo)> Create(ApplicationUser user, RequestImage image)
         {
             //Make sure users can't upload large files (> 100MB)
             if (image.File.Length > 100000000)
             {
                 _logger.LogWarning($"User: {user.UserName} Tried to upload file with size {image.File.Length}");
-                return ImageCreateStatus.FileTooLarge;
+                return (ImageCreateStatus.FileTooLarge,null);
             }
 
             //make sure the file extension is an image. This is a repository for images only.
@@ -37,7 +37,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             if (!IsValidFileExtension(fileExtension))
             {
                 _logger.LogWarning($"User: {user.UserName} Tried to upload file with invalid extension: {fileExtension}");
-                return ImageCreateStatus.BadExtension;
+                return (ImageCreateStatus.BadExtension,null);
             }
 
             var databaseImage = BuildDatabaseImage(user, image);
@@ -56,13 +56,13 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"Exception occured while trying to save image insertion to db: {ex.Message}");
-                return ImageCreateStatus.DatabaseError;
+                return (ImageCreateStatus.DatabaseError,null);
             }
 
-            return ImageCreateStatus.Success;
+            return (ImageCreateStatus.Success,MapToImageInfo(databaseImage));
         }
 
-        public async Task<ImageBulkCreateStatus> Create(ApplicationUser user, List<IFormFile> images)
+        public async Task<(ImageBulkCreateStatus,List<ImageInfo>)> Create(ApplicationUser user, List<IFormFile> images)
         {
             //validation loop
             foreach (var image in images)
@@ -71,18 +71,19 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 if (image.Length > 100000000)
                 {
                     _logger.LogWarning($"User: {user.UserName} Tried to upload file with size {image.Length}");
-                    return ImageBulkCreateStatus.Fail;
+                    return (ImageBulkCreateStatus.Fail,null);
                 }
                 //Make sure the file extension is an image. This is a repository for images only.
                 var fileExtension = Path.GetExtension(image.FileName);
                 if (!IsValidFileExtension(fileExtension))
                 {
                     _logger.LogWarning($"User: {user.UserName} Tried to upload file with invalid extension: {fileExtension}");
-                    return ImageBulkCreateStatus.Fail;
+                    return (ImageBulkCreateStatus.Fail,null);
                 }
             }
 
             //once we know all images are ok to be created, we create them.
+            var imagesToReturn = new List<DatabaseImage>();
             foreach (var image in images)
             {
                 var databaseImage = BuildDatabaseImageBulk(user, image);
@@ -93,6 +94,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 }
 
                 await _db.Images.AddAsync(databaseImage);
+                imagesToReturn.Add(databaseImage);
             }
 
             try
@@ -102,10 +104,10 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             catch (Exception ex)
             {
                 _logger.LogError($"Exception occured while trying to save bulk image insertion to db: {ex.Message}");
-                return ImageBulkCreateStatus.DatabaseError;
+                return (ImageBulkCreateStatus.DatabaseError,null);
             }
 
-            return ImageBulkCreateStatus.Success;
+            return (ImageBulkCreateStatus.Success, MapListToImageInfo(imagesToReturn));
         }
 
         public async Task<ImageBulkDeleteStatus> Delete(ApplicationUser user, List<Guid> ids)

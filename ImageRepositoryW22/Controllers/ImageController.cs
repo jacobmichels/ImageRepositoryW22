@@ -110,10 +110,10 @@ namespace ImageRepositoryW22.Controllers
         public async Task<IActionResult> CreateOne([FromForm] RequestImage imageInfo)
         {
             var user = await _userRepository.GetUser(_controllerUtility.GetUserId(HttpContext));
-            var createdStatus = await _imageRepository.Create(user, imageInfo);
+            var (createdStatus, image) = await _imageRepository.Create(user, imageInfo);
             if (createdStatus == ImageCreateStatus.Success)
             {
-                return Ok(new { Message = "Image created." });
+                return Ok(new { Message = "Image created.", Image = image });
             }
             else if (createdStatus == ImageCreateStatus.FileTooLarge)
             {
@@ -149,10 +149,10 @@ namespace ImageRepositoryW22.Controllers
         public async Task<IActionResult> CreateMany([FromForm] List<IFormFile> files)
         {
             var user = await _userRepository.GetUser(_controllerUtility.GetUserId(HttpContext));
-            var createdStatus = await _imageRepository.Create(user, files);
+            var (createdStatus, images) = await _imageRepository.Create(user, files);
             if (createdStatus == ImageBulkCreateStatus.Success)
             {
-                return Ok(new { Message = "Images successfully created." });
+                return Ok(new { Message = "Images successfully created.", Images = images });
             }
             else if (createdStatus == ImageBulkCreateStatus.Fail)
             {

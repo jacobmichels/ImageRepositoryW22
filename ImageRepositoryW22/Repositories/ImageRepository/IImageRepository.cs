@@ -15,8 +15,8 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
         public Task<List<ImageInfo>> GetMine(ApplicationUser user);
         public Task<ImageData> Get(ApplicationUser user, Guid id);
 
-        public Task<ImageCreateStatus> Create(ApplicationUser user, RequestImage image);
-        public Task<ImageBulkCreateStatus> Create(ApplicationUser user, List<IFormFile> images);
+        public Task<(ImageCreateStatus, ImageInfo)> Create(ApplicationUser user, RequestImage image);
+        public Task<(ImageBulkCreateStatus, List<ImageInfo>)> Create(ApplicationUser user, List<IFormFile> images);
 
         public Task<ImageInfo> Update(ApplicationUser user, ImageUpdate image);
 
