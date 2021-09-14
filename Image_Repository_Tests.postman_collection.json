@@ -1,0 +1,1877 @@
+{
+	"info": {
+		"_postman_id": "f3ebe431-5fa7-4770-810a-ecb7e60aa6b9",
+		"name": "Image_Repository_Tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Requests",
+			"item": [
+				{
+					"name": "Account Requests",
+					"item": [
+						{
+							"name": "Register",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"jacob\",\r\n    \"password\":\"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5001/Account/Register",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Account",
+										"Register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"jacob\",\r\n    \"password\":\"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5001/Account/Login",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Account",
+										"Login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Me",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:5001/Account/Me",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Account",
+										"Me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://localhost:5001/Account/Delete",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Account",
+										"Delete"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Image Requests",
+					"item": [
+						{
+							"name": "Get By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:5001/Image/Get?id=0be826c7-ad21-40bc-9277-ec3e8a04d0b3",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Image",
+										"Get"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "0be826c7-ad21-40bc-9277-ec3e8a04d0b3"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Mine",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:5001/Image/GetMine",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Image",
+										"GetMine"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Public",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://localhost:5001/Image/GetAllPublic",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Image",
+										"GetAllPublic"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create One",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "Name",
+											"value": "MyImage",
+											"type": "text"
+										},
+										{
+											"key": "Description",
+											"value": "A brief description",
+											"type": "text"
+										},
+										{
+											"key": "Private",
+											"value": "false",
+											"type": "text"
+										},
+										{
+											"key": "File",
+											"type": "file",
+											"src": "naptime.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://localhost:5001/Image/CreateOne",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Image",
+										"CreateOne"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create Many",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "files",
+											"type": "file",
+											"src": [
+												"rooftop.jpg",
+												"stopwebp.webp",
+												"wedding.jpg",
+												"wildlife.jpg"
+											]
+										}
+									]
+								},
+								"url": {
+									"raw": "https://localhost:5001/Image/CreateMany",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Image",
+										"CreateMany"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": \"6697350a-f191-432b-bd2f-63df678c0043\",\r\n    \"name\": \"Updated Name\",\r\n    \"description\": \"Updated Desc\",\r\n    \"private\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5001/Image/Update",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Image",
+										"Update"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    \"c5f86482-74f1-46e8-b130-cbe4a7f4cd2d\",\r\n    \"d0724c05-9917-416b-a6fd-3e7d722e8704\"\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://localhost:5001/Image/Delete",
+									"protocol": "https",
+									"host": [
+										"localhost"
+									],
+									"port": "5001",
+									"path": [
+										"Image",
+										"Delete"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Flow 1: Happy path",
+			"item": [
+				{
+					"name": "Register new account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token\", pm.response.text());\r",
+									"\r",
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"jacob\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/Account/Register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ensure username is correct",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct username\",()=>{\r",
+									"    pm.response.to.have.body({\"username\":\"jacob\"})\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Account/Me",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload one image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response body correct\", () => {\r",
+									"    let responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.message).to.equal(\"Image created.\");\r",
+									"    pm.expect(responseJson.image.name).to.equal(\"MyImage\");\r",
+									"    pm.expect(responseJson.image.description).to.equal(\"A brief description\");\r",
+									"    pm.expect(responseJson.image.private).to.equal(false);\r",
+									"    pm.expect(responseJson.image.fileName).to.equal(\"naptime.jpg\");\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.set(\"image_guid\",pm.response.json().image.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "MyImage",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "A brief description",
+									"type": "text"
+								},
+								{
+									"key": "Private",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "File",
+									"type": "file",
+									"src": "naptime.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/CreateOne",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"CreateOne"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"{{image_guid}}\",\r\n    \"name\": \"Updated Name\",\r\n    \"description\": \"Updated Desc\",\r\n    \"private\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/Update",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"Update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ensure image updated",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Image updated\", () => {\r",
+									"    pm.expect(pm.response.json()[0].name).to.equal(\"Updated Name\");\r",
+									"    pm.expect(pm.response.json()[0].description).to.equal(\"Updated Desc\");\r",
+									"    pm.expect(pm.response.json()[0].private).to.be.true;\r",
+									"    pm.expect(pm.response.json()[0].fileName).to.equal(\"naptime.jpg\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Image/GetMine",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"GetMine"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload 4 images",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response body correct\", () => {\r",
+									"    let responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.message).to.equal(\"Images successfully created.\");\r",
+									"    pm.expect(responseJson.images[0].name).to.equal(\"rooftop.jpg\");\r",
+									"    pm.expect(responseJson.images[0].description).to.be.null;\r",
+									"    pm.expect(responseJson.images[0].private).to.be.true;\r",
+									"    pm.expect(responseJson.images[0].fileName).to.equal(\"rooftop.jpg\");\r",
+									"\r",
+									"    pm.expect(responseJson.images[3].name).to.equal(\"wildlife.jpg\");\r",
+									"    pm.expect(responseJson.images[3].description).to.be.null;\r",
+									"    pm.expect(responseJson.images[3].private).to.be.true;\r",
+									"    pm.expect(responseJson.images[3].fileName).to.equal(\"wildlife.jpg\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": [
+										"rooftop.jpg",
+										"stopwebp.webp",
+										"wedding.jpg",
+										"wildlife.jpg"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/CreateMany",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"CreateMany"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve first image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Image/Get?id={{image_guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"Get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{image_guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete first image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"{{image_guid}}\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/Delete",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"Delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ensure first image deleted",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ensure image not found\", () => {\r",
+									"    pm.response.to.be.notFound;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Image/Get?id={{image_guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"Get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{image_guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ensure user owns 4 images",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"User owns 4 images\", () => {\r",
+									"    pm.expect(pm.response.json().length).to.equal(4);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Image/GetMine",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"GetMine"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete the user's account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token\",\"\");\r",
+									"\r",
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:5001/Account/Delete",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Flow 2: Ensuring privacy",
+			"item": [
+				{
+					"name": "Register new account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token\", pm.response.text());\r",
+									"\r",
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"jacob\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/Account/Register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ensure username is correct",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct username\",()=>{\r",
+									"    pm.response.to.have.body({\"username\":\"jacob\"})\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Account/Me",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload one private image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Response body correct\", () => {\r",
+									"    let responseJson = pm.response.json();\r",
+									"    pm.expect(responseJson.message).to.equal(\"Image created.\");\r",
+									"    pm.expect(responseJson.image.name).to.equal(\"MyImage\");\r",
+									"    pm.expect(responseJson.image.description).to.equal(\"A brief description\");\r",
+									"    pm.expect(responseJson.image.private).to.equal(true);\r",
+									"    pm.expect(responseJson.image.fileName).to.equal(\"naptime.jpg\");\r",
+									"})\r",
+									"\r",
+									"pm.collectionVariables.set(\"image_guid\",pm.response.json().image.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "Name",
+									"value": "MyImage",
+									"type": "text"
+								},
+								{
+									"key": "Description",
+									"value": "A brief description",
+									"type": "text"
+								},
+								{
+									"key": "Private",
+									"value": "true",
+									"type": "text"
+								},
+								{
+									"key": "File",
+									"type": "file",
+									"src": "naptime.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:5001/Image/CreateOne",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"CreateOne"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ensure image uploaded",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Image updated\", () => {\r",
+									"    pm.expect(pm.response.json()[0].name).to.equal(\"MyImage\");\r",
+									"    pm.expect(pm.response.json()[0].description).to.equal(\"A brief description\");\r",
+									"    pm.expect(pm.response.json()[0].private).to.be.true;\r",
+									"    pm.expect(pm.response.json()[0].fileName).to.equal(\"naptime.jpg\");\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Image/GetMine",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"GetMine"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register another account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token_alt\", pm.response.text());\r",
+									"\r",
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"not_jacob\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:5001/Account/Register",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ensure using new account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Correct username\",()=>{\r",
+									"    pm.response.to.have.body({\"username\":\"not_jacob\"})\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Account/Me",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ensure user cannot access private image",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Ensure image not found\", () => {\r",
+									"    pm.response.to.be.notFound;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:5001/Image/Get?id={{image_guid}}",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Image",
+								"Get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{image_guid}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete the original user's account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token\",\"\");\r",
+									"\r",
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:5001/Account/Delete",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete the second user's account",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"token_alt\",\"\");\r",
+									"\r",
+									"pm.test(\"Request succeeded\", () => {\r",
+									"    pm.response.to.be.success;\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_alt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://localhost:5001/Account/Delete",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"Account",
+								"Delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Flow 3: Ensuring Auth",
+			"item": [
+				{
+					"name": "Ensure private endpoints are private",
+					"item": [
+						{
+							"name": "Account Requests",
+							"item": [
+								{
+									"name": "Me",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Request fails because no auth\", () => {\r",
+													"    pm.response.to.be.unauthorized;\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://localhost:5001/Account/Me",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Account",
+												"Me"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Request fails because no auth\", () => {\r",
+													"    pm.response.to.be.unauthorized;\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://localhost:5001/Account/Delete",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Account",
+												"Delete"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Image Requests",
+							"item": [
+								{
+									"name": "Get Mine",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Request fails because no auth\", () => {\r",
+													"    pm.response.to.be.unauthorized;\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://localhost:5001/Image/GetMine",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Image",
+												"GetMine"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create One",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Request fails because no auth\", () => {\r",
+													"    pm.response.to.be.unauthorized;\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "Name",
+													"value": "MyImage",
+													"type": "text"
+												},
+												{
+													"key": "Description",
+													"value": "A brief description",
+													"type": "text"
+												},
+												{
+													"key": "Private",
+													"value": "false",
+													"type": "text"
+												},
+												{
+													"key": "File",
+													"type": "file",
+													"src": "naptime.jpg"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://localhost:5001/Image/CreateOne",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Image",
+												"CreateOne"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Create Many",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Request fails because no auth\", () => {\r",
+													"    pm.response.to.be.unauthorized;\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "files",
+													"type": "file",
+													"src": [
+														"rooftop.jpg",
+														"stopwebp.webp",
+														"wedding.jpg",
+														"wildlife.jpg"
+													]
+												}
+											]
+										},
+										"url": {
+											"raw": "https://localhost:5001/Image/CreateMany",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Image",
+												"CreateMany"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Update",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Request fails because no auth\", () => {\r",
+													"    pm.response.to.be.unauthorized;\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"id\": \"6697350a-f191-432b-bd2f-63df678c0043\",\r\n    \"name\": \"Updated Name\",\r\n    \"description\": \"Updated Desc\",\r\n    \"private\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:5001/Image/Update",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Image",
+												"Update"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Request fails because no auth\", () => {\r",
+													"    pm.response.to.be.unauthorized;\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    \"c5f86482-74f1-46e8-b130-cbe4a7f4cd2d\",\r\n    \"d0724c05-9917-416b-a6fd-3e7d722e8704\"\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:5001/Image/Delete",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Image",
+												"Delete"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Ensure public endpoints are public",
+					"item": [
+						{
+							"name": "Image Requests",
+							"item": [
+								{
+									"name": "Get By Id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Endpoint accessable without auth\", () => {\r",
+													"    pm.expect(pm.response.status).to.not.be.equal(401);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://localhost:5001/Image/Get?id={{image_guid}}",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Image",
+												"Get"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "{{image_guid}}"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Public",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Endpoint accessable without auth\", () => {\r",
+													"    pm.expect(pm.response.status).to.not.be.equal(401);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://localhost:5001/Image/GetAllPublic",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Image",
+												"GetAllPublic"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Account Requests",
+							"item": [
+								{
+									"name": "Register",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Endpoint accessable without auth\", () => {\r",
+													"    pm.expect(pm.response.status).to.not.be.equal(401);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\":\"\",\r\n    \"password\":\"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:5001/Account/Register",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Account",
+												"Register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Login",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Endpoint accessable without auth\", () => {\r",
+													"    pm.expect(pm.response.status).to.not.be.equal(401);\r",
+													"})"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\":\"\",\r\n    \"password\":\"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:5001/Account/Login",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "5001",
+											"path": [
+												"Account",
+												"Login"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "image_guid",
+			"value": ""
+		},
+		{
+			"key": "token_alt",
+			"value": ""
+		}
+	]
+}
