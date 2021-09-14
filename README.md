@@ -16,17 +16,11 @@ Link to the challenge: https://docs.google.com/document/d/1eg3sJTOwtyFhDopKedRD6
 - Postman tests.
 
 ## How to run
-There are a few different ways you can get my application running.
+Here is how you can get my application running on your local machine.
 ### Prebuilt binaries
 1. [Download](https://github.com/jacobmichels/ImageRepositoryW22/releases) the latest release for your OS architecture.
 2. Extract the file and run the ImageRepositoryW22 executable. There are no dependencies that need to be installed. You may need to set this file as executable depending on your platform. Bypass any Windows smartscreen warnings.
 3. The application is now running. To view the endpoint documentation, navigate to https://localhost:5001/swagger. (swagger may not display properly in Firefox, try Chrome)
-
-### Docker
-TODO
-
-### Build from source
-TODO
 
 ## Tests
 
