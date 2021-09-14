@@ -153,7 +153,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
         //Return image data only here. Check if user is null, and make sure the image is either public or the user owns the image
         public async Task<ImageData> Get(ApplicationUser user, Guid id)
         {
-            var image = await _db.Images.FirstOrDefaultAsync(image => image.Id == id);
+            var image = await _db.Images.Include(image => image.Owner).FirstOrDefaultAsync(image => image.Id == id);
             if (image == null)
             {
                 return null;
@@ -172,20 +172,20 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
 
         public async Task<List<ImageInfo>> GetAllPublic()
         {
-            var databaseImages = await _db.Images.Where(image => image.Private == false).ToListAsync();
+            var databaseImages = await _db.Images.Include(image => image.Owner).Where(image => image.Private == false).ToListAsync();
             return MapListToImageInfo(databaseImages);
         }
 
         //Don't return image data, just info like name
         public async Task<List<ImageInfo>> GetMine(ApplicationUser user)
         {
-            var databaseImages = await _db.Images.Where(image => image.Owner.UserName == user.UserName).ToListAsync();
+            var databaseImages = await _db.Images.Include(image => image.Owner).Where(image => image.Owner.UserName == user.UserName).ToListAsync();
             return MapListToImageInfo(databaseImages);
         }
 
         public async Task<ImageInfo> Update(ApplicationUser user, ImageUpdate newData)
         {
-            var image = await _db.Images.FirstOrDefaultAsync(image => image.Id == newData.Id && image.Owner.UserName == user.UserName);
+            var image = await _db.Images.Include(image => image.Owner).FirstOrDefaultAsync(image => image.Id == newData.Id && image.Owner.UserName == user.UserName);
             if (image is null)
             {
                 return null;
