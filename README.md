@@ -2,6 +2,8 @@
 
 For the Winter 2022 Shopify Developer Intern Challenge, I built a REST API with ASP.NET Core.
 
+Follow the instructions in the How to run section below to get started with the application.
+
 Link to the challenge: https://docs.google.com/document/d/1eg3sJTOwtyFhDopKedRD6142CFkDfWp1QvRKXNTPIOc
 
 ![alt text](https://github.com/jacobmichels/ImageRepositoryW22/blob/master/Screenshot.png "Logo Title Text 1")
@@ -10,16 +12,22 @@ Link to the challenge: https://docs.google.com/document/d/1eg3sJTOwtyFhDopKedRD6
 - User accounts with public/private images.
 - Create, read, update, and delete images.
 - Bulk create and delete endpoints.
-- Swagger API documentation.
+- Swagger/Open API documentation.
 - JWT authentication.
 - Argon2 password hashing.
 - Postman tests.
+
+## Technologies
+- C#/ASP.NET Core
+- Entity Framework Core
+- Swagger/Open API
+- SQLite
 
 ## How to run
 Here is how you can get my application running on your local machine.
 ### Prebuilt binaries
 1. [Download](https://github.com/jacobmichels/ImageRepositoryW22/releases) the latest release for your OS architecture.
-2. Extract the file and run the ImageRepositoryW22 executable. There are no dependencies that need to be installed. You may need to set this file as executable depending on your platform. Bypass any Windows smartscreen warnings.
+2. Extract the downloaded zip file and run the ImageRepositoryW22 executable. There are no dependencies that need to be installed. You may need to set this file as executable depending on your platform. Bypass any Windows smartscreen warnings.
 3. The application is now running. To view the endpoint documentation, navigate to https://localhost:5001/swagger. (swagger may not display properly in Firefox, try Chrome)
 
 ## Tests
