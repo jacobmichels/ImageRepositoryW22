@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static ImageRepositoryW22.Utilities.Enums.ImageRepositoryEnums;
-using ImageRepositoryW22.Utilities.OCRWrapper;
 
 namespace ImageRepositoryW22.ImageRepository.Repositories
 {
@@ -18,13 +17,11 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
     {
         private readonly ApplicationDbContext _db;
         private readonly ILogger<ImageRepository> _logger;
-        private readonly IOCRWrapper _ocr;
 
-        public ImageRepository(ApplicationDbContext db, ILogger<ImageRepository> logger, IOCRWrapper ocr)
+        public ImageRepository(ApplicationDbContext db, ILogger<ImageRepository> logger)
         {
             _db = db;
             _logger = logger;
-            _ocr = ocr;
         }
         public async Task<ImageCreateStatus> Create(ApplicationUser user, RequestImage image)
         {
@@ -49,8 +46,6 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             {
                 await image.File.CopyToAsync(stream);
             }
-
-            databaseImage.ImageText = _ocr.GetTextFromImage(databaseImage.Path);
 
             await _db.Images.AddAsync(databaseImage);
 
@@ -96,8 +91,6 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 {
                     await image.CopyToAsync(stream);
                 }
-
-                databaseImage.ImageText = _ocr.GetTextFromImage(databaseImage.Path);
 
                 await _db.Images.AddAsync(databaseImage);
             }
@@ -226,16 +219,6 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return MapToImageInfo(image);
         }
 
-        public async Task<List<ImageInfo>> SearchMine(ApplicationUser user, string text)
-        {
-            return MapListToImageInfo(await _db.Images.Where(image => image.Owner.Id == user.Id && image.ImageText.Contains(text)).ToListAsync());
-        }
-
-        public async Task<List<ImageInfo>> SearchAllPublic(string text)
-        {
-            return MapListToImageInfo(await _db.Images.Where(image => image.Private == false && image.ImageText.Contains(text)).ToListAsync());
-        }
-
         private DatabaseImage BuildDatabaseImage(ApplicationUser user, RequestImage image)
         {
             var databaseImage = new DatabaseImage()
@@ -293,7 +276,6 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
         {
             return new ImageInfo()
             {
-                ImageText = image.ImageText,
                 Id = image.Id,
                 Description = image.Description,
                 Name = image.Name,
