@@ -125,8 +125,6 @@ namespace ImageRepositoryW22
                 logger.LogWarning("For security you should change the JWT secret key in appsettings.json.");
             }
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseAuthentication();
