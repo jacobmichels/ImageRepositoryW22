@@ -46,7 +46,7 @@ namespace ImageRepositoryW22
             services.AddScoped<IImageRepository, ImageRepository.Repositories.ImageRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddSingleton<IPasswordUtilities, PasswordUtilities>();
-            services.AddSingleton<IOCRWrapper, IronTesseractWrapper>();
+            services.AddSingleton<IOCRWrapper, TesseractWrapper>();
             services.AddScoped<IControllerUtility, ControllerUtility>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {

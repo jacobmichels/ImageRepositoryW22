@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using IronOcr;
 using static ImageRepositoryW22.Utilities.Enums.ImageRepositoryEnums;
 using ImageRepositoryW22.Utilities.OCRWrapper;
 
@@ -51,7 +50,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 await image.File.CopyToAsync(stream);
             }
 
-            databaseImage.ImageText = await _ocr.GetTextFromImage(databaseImage.Path);
+            databaseImage.ImageText = _ocr.GetTextFromImage(databaseImage.Path);
 
             await _db.Images.AddAsync(databaseImage);
 
@@ -98,7 +97,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                     await image.CopyToAsync(stream);
                 }
 
-                databaseImage.ImageText = await _ocr.GetTextFromImage(databaseImage.Path);
+                databaseImage.ImageText = _ocr.GetTextFromImage(databaseImage.Path);
 
                 await _db.Images.AddAsync(databaseImage);
             }
