@@ -226,7 +226,7 @@ namespace ImageRepositoryW22.Controllers
             }
             else
             {
-                return StatusCode(500, new { ErrorMessage = "Image was not deleted due to a database error.Please try again later." });
+                return StatusCode(500, new { ErrorMessage = "Image was not deleted due to a database error. Please try again later." });
             }
         }
     }
