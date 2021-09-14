@@ -4,6 +4,8 @@ For the Winter 2022 Shopify Developer Intern Challenge, I built a REST API with 
 
 Link to the challenge: https://docs.google.com/document/d/1eg3sJTOwtyFhDopKedRD6142CFkDfWp1QvRKXNTPIOc
 
+![alt text](https://github.com/jacobmichels/ImageRepositoryW22/blob/master/Screenshot.png "Logo Title Text 1")
+
 ## Features
 - User accounts with public/private images.
 - Create, read, update, and delete images.
@@ -35,3 +37,11 @@ The tests are in the form of a Postman collection and can be downloaded on the [
 1. Start Postman and import the test collection with the import button.
 2. Ensure the Image Repository application is running.
 3. Examine the tests to understand what they are testing, then when ready, click either of the three flows then click the run button to run all the tests within that flow. The requests under the "Requests" folder are not meant to be run in the manner, rather they are sample requests for each endpoint. The tests clean up after themselves, so feel free to run them more than once. If you find you've messed up the state of the database, you can get back to a clean slate by closing the application, and deleting the app.db file, and starting the app again.
+
+## Swagger
+
+To view the API endpoint documentation, with the app running, navigate to https://localhost:5001/swagger.
+
+Here you will find each endpoint along with it's http method and brief description of it's function. You can click any endpoint to reveal more information about it, such as it's input and what it returns.
+
+You can also use swagger to send http requests to the API, although it is a little clunkier than using a tool like Postman. You can call any endpoint by clicking on it, then clicking the "try it out" button, filling in any parameters or request body, then clicking execute. If an endpoint requires authorization, you can input a JWT to be passed with each request by clicking the "Authorize" button at the top right of the page, pasting your JWT, and clicking Authorize.
