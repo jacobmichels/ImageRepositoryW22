@@ -115,9 +115,10 @@ namespace ImageRepositoryW22
             {
                 logger.LogInformation("Using development settings.");
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageRepositoryW22 v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageRepositoryW22 v1"));
 
             if (Configuration["Jwt:Key"] == "SecretKeyYouShouldChange")
             {
