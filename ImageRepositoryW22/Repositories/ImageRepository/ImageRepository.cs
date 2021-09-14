@@ -18,11 +18,19 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
         private readonly ApplicationDbContext _db;
         private readonly ILogger<ImageRepository> _logger;
 
+        //Get required services from dependency injection.
         public ImageRepository(ApplicationDbContext db, ILogger<ImageRepository> logger)
         {
             _db = db;
             _logger = logger;
         }
+
+        //Input a user and an image.
+        //
+        //Validate the image, set the user as the owner,
+        //save it's info to the database, and write the image to the filesystem.
+        //
+        //Return an enum representing the result of the operation, and the imageinfo if successful.
         public async Task<(ImageCreateStatus, ImageInfo)> Create(ApplicationUser user, RequestImage image)
         {
             //Make sure users can't upload large files (> 100MB)
@@ -62,6 +70,12 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return (ImageCreateStatus.Success,MapToImageInfo(databaseImage));
         }
 
+        //Input a user and a list of images.
+        //
+        //Validate the images, set the user as the owner for all images,
+        //save each image's info to the database, and write the images to the filesystem.
+        //
+        //Return an enum representing the result of the operation, and a list of imageinfo if successful.
         public async Task<(ImageBulkCreateStatus,List<ImageInfo>)> Create(ApplicationUser user, List<IFormFile> images)
         {
             //validation loop
@@ -110,6 +124,13 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return (ImageBulkCreateStatus.Success, MapListToImageInfo(imagesToReturn));
         }
 
+
+        //Input a user and a list of guids referencing images to delete.
+        //
+        //Ensure each id in the list maps to an image the user has permission to delete,
+        //then remove each referenced image from the filesystem and from the database.
+        //
+        //Return the result of the operation.
         public async Task<ImageBulkDeleteStatus> Delete(ApplicationUser user, List<Guid> ids)
         {
             if(ids is null || ids.Count == 0)
@@ -150,7 +171,12 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return ImageBulkDeleteStatus.Success;
         }
 
-        //Return image data only here. Check if user is null, and make sure the image is either public or the user owns the image
+        //Input a user and a guid of an image to fetch.
+        //
+        //Ensure the user has permission to fetch the requested image,
+        //then return the image as a file..
+        //
+        //Return the requested image as a file.
         public async Task<ImageData> Get(ApplicationUser user, Guid id)
         {
             var image = await _db.Images.Include(image => image.Owner).FirstOrDefaultAsync(image => image.Id == id);
@@ -170,19 +196,34 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return await MapToImageData(image);
         }
 
+        //Input nothing.
+        //
+        //Gather all images in the database marked as public and return their info.
+        //
+        //Return the list of image info. Only info is returned such as name and description, not the actual image.
         public async Task<List<ImageInfo>> GetAllPublic()
         {
             var databaseImages = await _db.Images.Include(image => image.Owner).Where(image => image.Private == false).ToListAsync();
             return MapListToImageInfo(databaseImages);
         }
 
-        //Don't return image data, just info like name
+        //Input a user.
+        //
+        //Gather all images in the database that the user owns.
+        //
+        //Return the list of image info. Only info is returned such as name and description, not the actual image.
         public async Task<List<ImageInfo>> GetMine(ApplicationUser user)
         {
             var databaseImages = await _db.Images.Include(image => image.Owner).Where(image => image.Owner.UserName == user.UserName).ToListAsync();
             return MapListToImageInfo(databaseImages);
         }
 
+        //Input a user and some new image info.
+        //
+        //Find the image referenced by the newData parameter, ensure the user has permission to alter it,
+        //remove it from the database, update it's fields to match newData, then reinsert it. The image's id is preserved.
+        //
+        //Returns the new ImageInfo of that image
         public async Task<ImageInfo> Update(ApplicationUser user, ImageUpdate newData)
         {
             var image = await _db.Images.Include(image => image.Owner).FirstOrDefaultAsync(image => image.Id == newData.Id && image.Owner.UserName == user.UserName);
@@ -221,6 +262,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return MapToImageInfo(image);
         }
 
+        //Helper method to create a DatabaseImage object given a user and a RequestImage.
         private DatabaseImage BuildDatabaseImage(ApplicationUser user, RequestImage image)
         {
             var databaseImage = new DatabaseImage()
@@ -237,6 +279,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return databaseImage;
         }
 
+        //Helper method to create a DatabaseImage object given a user and a FormFile.
         private DatabaseImage BuildDatabaseImageBulk(ApplicationUser user, IFormFile image)
         {
             var databaseImage = new DatabaseImage()
@@ -252,6 +295,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return databaseImage;
         }
 
+        //Helper method to ensure a file extension is a valid image extension.
         private bool IsValidFileExtension(string fileExtension)
         {
             var validExtensions = new List<string>() { ".png", ".jpeg", ".jpg", ".gif", ".webp", ".tiff", ".psd", ".raw", ".bmp", ".heif", ".indd", ".svg", ".pdf" };
@@ -262,6 +306,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return true;
         }
 
+        //Helper method to map a list of DatabaseImage objects to ImageInfo objects so they can be returned as an HTTP response.
         private List<ImageInfo> MapListToImageInfo(List<DatabaseImage> images)
         {
             var imageInfoList = new List<ImageInfo>();
@@ -274,6 +319,7 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
             return imageInfoList;
         }
 
+        //Helper method to map a single DatabaseImage object to an ImageInfo object so it can be returned as an HTTP response.
         private ImageInfo MapToImageInfo(DatabaseImage image)
         {
             return new ImageInfo()
@@ -285,6 +331,8 @@ namespace ImageRepositoryW22.ImageRepository.Repositories
                 FileName = image.FileName,
             };
         }
+
+        //Helper method to map a DatabaseImage object to an ImageData object so the image can be sent as a file.
         private async Task<ImageData> MapToImageData(DatabaseImage image)
         {
             return new ImageData()

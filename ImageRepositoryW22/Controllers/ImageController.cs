@@ -21,6 +21,8 @@ namespace ImageRepositoryW22.Controllers
         private readonly IImageRepository _imageRepository;
         private readonly IUserRepository _userRepository;
         private readonly IControllerUtility _controllerUtility;
+        
+        //Get required services from dependency injection.
         public ImageController(IImageRepository imageRepository, IUserRepository userRepository, IControllerUtility controllerUtility)
         {
             _imageRepository = imageRepository;

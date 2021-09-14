@@ -27,6 +27,7 @@ namespace ImageRepositoryW22.Controllers
         private readonly IControllerUtility _controllerUtility;
         private readonly IConfiguration _config;
 
+        //Get required services from dependency injection.
         public AccountController(IUserRepository userRepository, IPasswordUtilities passwordUtils, IConfiguration config, IControllerUtility controllerUtility)
         {
             _userRepository = userRepository;
@@ -155,6 +156,8 @@ namespace ImageRepositoryW22.Controllers
             return Ok(new { Message="User deleted successfully." });
         }
 
+        //Helper method to create a new user from a username and password.
+        //This method hashes the password and stores the hash, rather than storing the password as plaintext,
         private async Task<ApplicationUser> CreateApplicationUser(string username, string password)
         {
             var hashedPassword = await _passwordUtils.HashPasswordAsync(password);
@@ -162,6 +165,8 @@ namespace ImageRepositoryW22.Controllers
             return user;
         }
 
+        //Helper method to generate a JWT for a user.
+        //A claim containing the guid of the user is added to the JWT for authorization.
         private string GenerateJWT(ApplicationUser user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -179,6 +184,7 @@ namespace ImageRepositoryW22.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        //Helper method to ensure username and password pass whitespace and length constraints.
         private bool credentialsValid(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
